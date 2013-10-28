@@ -31,7 +31,7 @@ Crafty.c("Ground", {
 	}
 });
 
-Crafty.c("ParticleTrail", {
+Crafty.c("PlayerTrail", {
 	generateTrail: function(){
 		var options = {
 			maxParticles: 200,
@@ -72,7 +72,7 @@ Crafty.c("Level", {
 	init: function(){
 	
 		// place PC in game
-		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity, ParticleTrail")
+		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity, PlayerTrail")
           .attr({
             x: 400
             , y: 400 
