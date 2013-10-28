@@ -2,7 +2,7 @@
 // Player
 
 Crafty.c("Player", function(){
-	
+
 });
 
 // All other components that exist in the planet of this game. 
@@ -31,6 +31,40 @@ Crafty.c("Ground", {
 	}
 });
 
+Crafty.c("ParticleTrail", {
+	generateTrail: function(){
+		var options = {
+			maxParticles: 200,
+			size: 100,
+			sizeRandom: 2,
+			speed: 30,
+			speedRandom: 0,
+			// Lifespan in frames
+			lifeSpan: 40,
+			lifeSpanRandom: 0,
+			// Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
+			angle: 270,
+			angleRandom: 0,
+			startColour: [0, 200, 0, 1],
+			startColourRandom: [0, 0, 0, 1],
+			// Only applies when fastMode is off, specifies how sharp the gradients are drawn
+			sharpness: 20,
+			sharpnessRandom: 0,
+			// Random spread from origin
+			spread: 2,
+			// How many frames should this last
+			duration: -1,
+			// Will draw squares instead of circle gradients
+			fastMode: false,
+			gravity: { x: -2, y: 0 },
+			// sensible values are 0-3
+			jitter: 2
+		}
+		this.requires("Particles").particles(options);
+		return this;
+	}
+});
+
 
 // Level Generator
 
@@ -38,9 +72,9 @@ Crafty.c("Level", {
 	init: function(){
 	
 		// place PC in game
-		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity")
+		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity, ParticleTrail")
           .attr({
-            x: 100
+            x: 400
             , y: 400 
             , w: 100
             , h: 100
@@ -48,9 +82,10 @@ Crafty.c("Level", {
           .css({
             "background-color": 'rgb(163,205,57)'
           })
+          .generateTrail()
           .gravity("Ground")
           .gravityConst(GRAVITY)
-          .twoway(5);
+          .twoway(0,10);
         
         
         // Place ground in Level  
