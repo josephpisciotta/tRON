@@ -1,6 +1,11 @@
+
+// Player
+
 Crafty.c("Player", function(){
 	
 });
+
+// All other components that exist in the planet of this game. 
 
 Crafty.c("Other", {
 	init: function(){
@@ -9,6 +14,8 @@ Crafty.c("Other", {
 		});
 	}
 });
+
+// The ground component
 
 Crafty.c("Ground", {
 	_xPos: 0,
@@ -24,9 +31,14 @@ Crafty.c("Ground", {
 	}
 });
 
+
+// Level Generator
+
 Crafty.c("Level", {
 	init: function(){
-		player1 = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity")
+	
+		// place PC in game
+		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity")
           .attr({
             x: 100
             , y: 400 
@@ -39,9 +51,13 @@ Crafty.c("Level", {
           .gravity("Ground")
           .gravityConst(GRAVITY)
           .twoway(5);
-          
+        
+        
+        // Place ground in Level  
         ground = Crafty.e("2D, DOM, Other, Ground");
 	},
+	
+	// Generate the blocks for the player to dodge
 	generateObjects: function(numEnemies){
 		for(var i = 0; i< numEnemies; i++){
 			Crafty.e("2D, DOM, Other")
@@ -54,7 +70,9 @@ Crafty.c("Level", {
 			.css({"background-color": 'rgb(251,172,29)'});
 		}
 	},
-	generateGround: function(){
+	
+	// Generate the enemies that are chasing Ron
+	generateEnemies: function(){
 		
 	}
 });
