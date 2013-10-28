@@ -1,0 +1,12 @@
+var GRAVITY = .5;
+var GAME_SPEED = 5;
+
+var MAP_WIDTH = 20000;
+
+var SCREEN_WIDTH = 900;
+var SCREEN_HEIGHT = 500;
+
+
+var CHARACTER_MAP_URI = "";
+var BACKGROUND_IMAGE = "";
+
