@@ -1,8 +1,8 @@
 Game = {
   // This defines our grid's size and the size of each of its tiles
   map_grid: {
-    width:  600,
-    height: 400,
+    width:  SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     tile: {
       width:  1,
       height: 1
@@ -25,36 +25,34 @@ Game = {
   start: function() {
     // Start crafty and set a background color so that we can see it's working
     Crafty.init(Game.width(), Game.height());
+
     Crafty.background('rgb(249, 108, 30)');
     
-    Crafty.scene("Intro");
+    Crafty.scene("Menu");
   }
 }
 
-Crafty.scene("Intro", function(){
-    player2 = Crafty.e("2D, DOM")
-    	.attr({
-			x: 250
-	  		, y: 120 
-	  		, w: 100
-			, h: 100
-		})
-		.css({"background-color": 'rgb(251,172,29)'})
-		.bind('EnterFrame',function(){
-			this.x -= 10;
-		});
+Crafty.scene("Menu", function(){
+	Crafty.e("2D, DOM, Color, Mouse")
+		.color("red")
+		.attr({w:100, h:100})
+		.bind("Click", function(){Crafty.scene("Game")});
+});
+
+Crafty.scene("Game", function(){
+	level1 = Crafty.e("Level").generateObjects(10);
 	
-	player1 = Crafty.e("2D, DOM, Multiway")
-          .attr({
-            x: 100
-            , y: 120 
-            , w: 100
-            , h: 100
-          })
-          .css({
-            "background-color": 'rgb(163,205,57)'
-          })
-          .multiway({x:15,y:0}, {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180});
-          
-	Crafty.viewport.follow(player1, -100, -100);
+	
+	// UI
+	Crafty.e("2D, DOM, Color, Mouse")
+		.color("red")
+		.attr({w:100, h:100, paused: false})
+		.bind("Click", function(){
+			if(this.isPaused){
+				Crafty.c();
+			}
+			else{
+				Crafty.pause();
+			}
+		});
 });
