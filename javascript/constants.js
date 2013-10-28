@@ -1,6 +1,6 @@
 // General Game Variables such as speed, gravity, difficulty
 var GRAVITY = .5;
-var GAME_SPEED = 5;
+var GAME_SPEED = 10;
 
 // Map Length (May take this out in favor of this being changed dynamically)
 var MAP_WIDTH = 20000;

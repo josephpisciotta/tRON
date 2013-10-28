@@ -37,6 +37,7 @@ Crafty.scene("Menu", function(){
 		.color("red")
 		.attr({w:100, h:100})
 		.bind("Click", function(){Crafty.scene("Game")});
+	
 });
 
 Crafty.scene("Game", function(){
