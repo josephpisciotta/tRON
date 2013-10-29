@@ -31,8 +31,8 @@ Game = {
 
 Crafty.scene("Menu", function() {
     Crafty.e("2D, DOM, Color, Mouse")
-//		.color("red")
             .attr({w: 110, h: 50, x: 342, y: 310})
+            .css({"cursor": "pointer"})
             .bind("Click", function() {
         Crafty.scene("Game");
     });
@@ -49,6 +49,7 @@ Crafty.scene("Game", function() {
     // UI
     Crafty.e("2D, DOM, Color, Mouse")
             .color("red")
+            .css({"cursor": "pointer"})
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
         if (this.isPaused) {
