@@ -23,7 +23,7 @@ Crafty.c("Player", {
 			
 		this.bind('NewDirection', function (data) {
 			if(data.y < 0){
-				this.animate("RonUP", 1, 1);
+				this.animate("RonUP", 1, 11);
 			
 			}
             else{
