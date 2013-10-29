@@ -31,6 +31,9 @@ Crafty.c("Ground", {
 	}
 });
 
+
+// Trail behind player and enemies
+
 Crafty.c("PlayerTrail", {
 	generateTrail: function(){
 		var options = {
@@ -97,7 +100,7 @@ Crafty.c("Level", {
 		for(var i = 0; i< numEnemies; i++){
 			Crafty.e("2D, DOM, Other")
 	    	.attr({
-				x: 100 * (i*Math.random()*200)
+				x: (i*Math.random()*200)
 		  		, y: 120 
 		  		, w: 100
 				, h: 100
