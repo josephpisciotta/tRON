@@ -24,13 +24,10 @@ Game = {
         Crafty.init(Game.width(), Game.height());
 
         Crafty.background('url(images/main-menu-bg.png)');
-<<<<<<< HEAD
         
 
 		
-=======
 
->>>>>>> a1bf108c6d17100fe82dd3f750d7eb26762172b6
         Crafty.scene("Menu");
     }
 };
@@ -38,10 +35,7 @@ Game = {
 Crafty.scene("Menu", function() {
     Crafty.e("2D, DOM, Color, Mouse")
             .attr({w: 110, h: 50, x: 342, y: 310})
-<<<<<<< HEAD
-=======
             .css({"cursor": "pointer"})
->>>>>>> a1bf108c6d17100fe82dd3f750d7eb26762172b6
             .bind("Click", function() {
         Crafty.scene("Game");
     });
@@ -58,10 +52,7 @@ Crafty.scene("Game", function() {
     // UI
     Crafty.e("2D, DOM, Color, Mouse")
             .color("red")
-<<<<<<< HEAD
-=======
             .css({"cursor": "pointer"})
->>>>>>> a1bf108c6d17100fe82dd3f750d7eb26762172b6
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
         if (this.isPaused) {

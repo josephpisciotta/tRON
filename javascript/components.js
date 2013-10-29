@@ -110,14 +110,8 @@ Crafty.c("Level", {
           .attr({
             x: 400
             , y: 400 
-<<<<<<< HEAD
             , w: 66
             , h: 66
-          });
-          
-=======
-            , w: 68
-            , h: 55
           })
           .css({
             "background-image": 'url(images/tRON.png)'
@@ -125,9 +119,8 @@ Crafty.c("Level", {
           .generateTrail()
           .gravity("Ground")
           .gravityConst(GRAVITY)
-          .twoway(0,10);
+          .multiway(10,{UP_ARROW:-90});
         
->>>>>>> a1bf108c6d17100fe82dd3f750d7eb26762172b6
         
         // Place ground in Level  
         ground = Crafty.e("2D, DOM, Other, Ground");
