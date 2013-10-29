@@ -24,14 +24,15 @@ Game = {
         Crafty.init(Game.width(), Game.height());
 
         Crafty.background('url(images/main-menu-bg.png)');
+        
 
+		
         Crafty.scene("Menu");
     }
 };
 
 Crafty.scene("Menu", function() {
     Crafty.e("2D, DOM, Color, Mouse")
-//		.color("red")
             .attr({w: 110, h: 50, x: 342, y: 310})
             .bind("Click", function() {
         Crafty.scene("Game");

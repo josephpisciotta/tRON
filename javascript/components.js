@@ -1,8 +1,38 @@
 
 // Player
+	Crafty.sprite(67,"images/tRON.png", {player:[0,0]});
 
-Crafty.c("Player", function(){
-
+Crafty.c("Player", {
+	init: function(){
+		this.requires("2D, DOM, SpriteAnimation, Multiway, Gravity, Collision, Keyboard, PlayerTrail, player, SpriteAnimation, Text");
+		this.multiway(10,{UP_ARROW:-90, DOWN_ARROW:90})
+		.generateTrail()
+		.gravity("Ground")
+		.gravityConst(GRAVITY)
+		.onHit("Ground",function(){
+			this._speed = 0;
+	        if (this._movement) {
+	            this.x -= this._movement.x;
+	            this.y -= this._movement.y;
+	        }
+        });
+        
+		this.animate("RonUP",[[1,0]])
+			.animate("RonNormal",[[0,0]]);
+			
+			
+		this.bind('NewDirection', function (data) {
+			if(data.y < 0){
+				this.animate("RonUP", 1, 1);
+			
+			}
+            else{
+	            this.animate("RonNormal", 1, 1);
+            } 
+            console.log(data);
+        });
+		return this;
+	}
 });
 
 // All other components that exist in the planet of this game. 
@@ -38,18 +68,19 @@ Crafty.c("PlayerTrail", {
 	generateTrail: function(){
 		var options = {
 			maxParticles: 200,
-			size: 100,
-			sizeRandom: 2,
+			size: 50,
+			sizeRandom: 0,
 			speed: 30,
-			speedRandom: 0,
+			speedRandom: 15,
 			// Lifespan in frames
-			lifeSpan: 40,
+			lifeSpan: 30,
 			lifeSpanRandom: 0,
 			// Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
 			angle: 270,
 			angleRandom: 0,
 			startColour: [0, 200, 0, 1],
-			startColourRandom: [0, 0, 0, 1],
+			startColourRandom: [0, 20, 0, 1],
+			endColour: [0, 200, 0, 1],
 			// Only applies when fastMode is off, specifies how sharp the gradients are drawn
 			sharpness: 20,
 			sharpnessRandom: 0,
@@ -59,9 +90,9 @@ Crafty.c("PlayerTrail", {
 			duration: -1,
 			// Will draw squares instead of circle gradients
 			fastMode: false,
-			gravity: { x: -2, y: 0 },
+			gravity: { x: -3, y: 0 },
 			// sensible values are 0-3
-			jitter: 2
+			jitter: 0
 		}
 		this.requires("Particles").particles(options);
 		return this;
@@ -75,21 +106,14 @@ Crafty.c("Level", {
 	init: function(){
 	
 		// place PC in game
-		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity, PlayerTrail")
+		player_character = Crafty.e("Player")
           .attr({
             x: 400
             , y: 400 
-            , w: 68
-            , h: 55
-          })
-          .css({
-            "background-image": 'url(images/tRON.png)'
-          })
-          .generateTrail()
-          .gravity("Ground")
-          .gravityConst(GRAVITY)
-          .twoway(0,10);
-        
+            , w: 66
+            , h: 66
+          });
+          
         
         // Place ground in Level  
         ground = Crafty.e("2D, DOM, Other, Ground");
