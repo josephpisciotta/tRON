@@ -37,8 +37,8 @@ Crafty.scene("Menu", function() {
             .attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-        Crafty.scene("Game");
-    });
+				Crafty.scene("Game");
+			});
 
 });
 

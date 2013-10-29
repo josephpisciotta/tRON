@@ -1,37 +1,67 @@
+// UI Components
+Crafty.c("Button", {
+	init: function(){
+		this.requires("2D, DOM");
+	}
+});
+
 
 // Player
-	Crafty.sprite(67,"images/tRON.png", {player:[0,0]});
+Crafty.sprite(67,"images/tRON.png", {player:[0,0]});
 
 Crafty.c("Player", {
 	init: function(){
-		this.requires("2D, DOM, SpriteAnimation, Multiway, Gravity, Collision, Keyboard, PlayerTrail, player, SpriteAnimation, Text");
+	
+		// Load required things
+		this.requires("2D, DOM, SpriteAnimation");
+		this.requires("Multiway, Gravity, Collision");
+		this.requires("Keyboard, PlayerTrail, player, SpriteAnimation, Text");
+		
+		// Set up controlls, gravity, ground interaction
 		this.multiway(10,{UP_ARROW:-90, DOWN_ARROW:90})
-		.generateTrail()
-		.gravity("Ground")
-		.gravityConst(GRAVITY)
-		.onHit("Ground",function(){
-			this._speed = 0;
-	        if (this._movement) {
-	            this.x -= this._movement.x;
-	            this.y -= this._movement.y;
-	        }
-        });
+			.generateTrail()
+			.gravity("Ground")
+			.gravityConst(GRAVITY)
+			.onHit("Ground", this.stopFalling);
         
-		this.animate("RonUP",[[1,0]])
-			.animate("RonNormal",[[0,0]]);
+        // player state animations
+		this.animate("PlayerUp",[[1,0],[0,0]])
+			.animate("PlayerNormal",[[0,0]]);
 			
-			
+		// Activate animation for up and normal based on movement
+		// Will also need Key Event listener for the down arrow as 
+		// the player never really moves
 		this.bind('NewDirection', function (data) {
+		
+			// Y axis negative change means up
 			if(data.y < 0){
-				this.animate("RonUP", 1, 11);
-			
+				this.animate("PlayerUp", 15, 0);
 			}
             else{
-	            this.animate("RonNormal", 1, 1);
+	            this.animate("PlayerNormal", 1, 1);
             } 
+            
+            // Print Trigger to console
             console.log(data);
         });
+        
+        // Block trip
+        this.onHit("Block", this.trip);
+        
 		return this;
+	},
+	die: function(){
+		
+	},
+	trip: function(){
+		
+	},
+	stopFalling: function(){
+		this._speed = 0;
+        if (this._movement) {
+            this.x -= this._movement.x;
+            this.y -= this._movement.y;
+        }
 	}
 });
 
@@ -44,6 +74,13 @@ Crafty.c("Other", {
 		});
 	}
 });
+
+// Enemy
+// All things that slow him down when hit or kill him will be an enemy
+Crafty.c("Enemy", {
+	
+});
+
 
 // The ground component
 
@@ -122,7 +159,7 @@ Crafty.c("Level", {
 	// Generate the blocks for the player to dodge
 	generateObjects: function(numEnemies){
 		for(var i = 0; i< numEnemies; i++){
-			Crafty.e("2D, DOM, Other")
+			Crafty.e("2D, DOM, Other, Enemy")
 	    	.attr({
 				x: (i*Math.random()*200)
 		  		, y: 120 
