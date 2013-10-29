@@ -6,7 +6,7 @@ var GAME_SPEED = 10;
 var MAP_WIDTH = 20000;
 
 // Game Screen Size
-var SCREEN_WIDTH = 900;
+var SCREEN_WIDTH = 800;
 var SCREEN_HEIGHT = 500;
 
 // Image URIs

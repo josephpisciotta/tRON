@@ -79,11 +79,11 @@ Crafty.c("Level", {
           .attr({
             x: 400
             , y: 400 
-            , w: 100
-            , h: 100
+            , w: 68
+            , h: 55
           })
           .css({
-            "background-color": 'rgb(163,205,57)'
+            "background-image": 'url(images/tRON.png)'
           })
           .generateTrail()
           .gravity("Ground")
