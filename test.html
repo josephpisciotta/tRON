@@ -1,0 +1,49 @@
+<html>
+<head></head>
+<body>
+<script type="text/javascript" src="javascript/crafty-0-5-3.js"></script>
+<script>
+Crafty.sprite(67,"images/tRON.png", {player:[1,0]});
+
+Game = {
+    map_grid: {
+        width: 600,
+        height: 400,
+        tile: {
+            width: 1,
+            height: 1
+        }
+    },
+    // The total width of the game screen. Since our grid takes up the entire screen
+    //  this is just the width of a tile times the width of the grid
+    width: function() {
+        return this.map_grid.width * this.map_grid.tile.width;
+    },
+    // The total height of the game screen. Since our grid takes up the entire screen
+    //  this is just the height of a tile times the height of the grid
+    height: function() {
+        return this.map_grid.height * this.map_grid.tile.height;
+    },
+	start: function() {
+        // Start crafty and set a background color so that we can see it's working
+        Crafty.init(Game.width(), Game.height());
+
+        Crafty.background('url(images/main-menu-bg.png)');
+        
+
+		
+        r = Crafty.e("2D,DOM,SpriteAnimation,player")
+        	.animate("playerRunning",0,0,2)
+        	.animate("playerRunning",1,-1);
+		
+    }
+};
+
+	
+</script>
+<script type="text/javascript">
+            window.addEventListener('load', Game.start);
+        </script>  
+        
+</body>
+</html>
