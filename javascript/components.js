@@ -1,8 +1,68 @@
+// UI Components
+Crafty.c("Button", {
+	init: function(){
+		this.requires("2D, DOM");
+	}
+});
+
 
 // Player
+Crafty.sprite(67,"images/tRON.png", {player:[0,0]});
 
-Crafty.c("Player", function(){
-
+Crafty.c("Player", {
+	init: function(){
+	
+		// Load required things
+		this.requires("2D, DOM, SpriteAnimation");
+		this.requires("Multiway, Gravity, Collision");
+		this.requires("Keyboard, PlayerTrail, player, SpriteAnimation, Text");
+		
+		// Set up controlls, gravity, ground interaction
+		this.multiway(10,{UP_ARROW:-90, DOWN_ARROW:90})
+			.generateTrail()
+			.gravity("Ground")
+			.gravityConst(GRAVITY)
+			.onHit("Ground", this.stopFalling);
+        
+        // player state animations
+		this.animate("PlayerUp",[[1,0],[0,0]])
+			.animate("PlayerNormal",[[0,0]]);
+			
+		// Activate animation for up and normal based on movement
+		// Will also need Key Event listener for the down arrow as 
+		// the player never really moves
+		this.bind('NewDirection', function (data) {
+		
+			// Y axis negative change means up
+			if(data.y < 0){
+				this.animate("PlayerUp", 15, 0);
+			}
+            else{
+	            this.animate("PlayerNormal", 1, 1);
+            } 
+            
+            // Print Trigger to console
+            console.log(data);
+        });
+        
+        // Block trip
+        this.onHit("Block", this.trip);
+        
+		return this;
+	},
+	die: function(){
+		
+	},
+	trip: function(){
+		
+	},
+	stopFalling: function(){
+		this._speed = 0;
+        if (this._movement) {
+            this.x -= this._movement.x;
+            this.y -= this._movement.y;
+        }
+	}
 });
 
 // All other components that exist in the planet of this game. 
@@ -14,6 +74,13 @@ Crafty.c("Other", {
 		});
 	}
 });
+
+// Enemy
+// All things that slow him down when hit or kill him will be an enemy
+Crafty.c("Enemy", {
+	
+});
+
 
 // The ground component
 
@@ -31,22 +98,26 @@ Crafty.c("Ground", {
 	}
 });
 
+
+// Trail behind player and enemies
+
 Crafty.c("PlayerTrail", {
 	generateTrail: function(){
 		var options = {
 			maxParticles: 200,
-			size: 100,
-			sizeRandom: 2,
+			size: 50,
+			sizeRandom: 0,
 			speed: 30,
-			speedRandom: 0,
+			speedRandom: 15,
 			// Lifespan in frames
-			lifeSpan: 40,
+			lifeSpan: 30,
 			lifeSpanRandom: 0,
 			// Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
 			angle: 270,
 			angleRandom: 0,
 			startColour: [0, 200, 0, 1],
-			startColourRandom: [0, 0, 0, 1],
+			startColourRandom: [0, 20, 0, 1],
+			endColour: [0, 200, 0, 1],
 			// Only applies when fastMode is off, specifies how sharp the gradients are drawn
 			sharpness: 20,
 			sharpnessRandom: 0,
@@ -56,9 +127,9 @@ Crafty.c("PlayerTrail", {
 			duration: -1,
 			// Will draw squares instead of circle gradients
 			fastMode: false,
-			gravity: { x: -2, y: 0 },
+			gravity: { x: -3, y: 0 },
 			// sensible values are 0-3
-			jitter: 2
+			jitter: 0
 		}
 		this.requires("Particles").particles(options);
 		return this;
@@ -72,20 +143,13 @@ Crafty.c("Level", {
 	init: function(){
 	
 		// place PC in game
-		player_character = Crafty.e("2D, DOM, Twoway, Player, Collision, Gravity, PlayerTrail")
+		player_character = Crafty.e("Player")
           .attr({
             x: 400
             , y: 400 
-            , w: 100
-            , h: 100
-          })
-          .css({
-            "background-color": 'rgb(163,205,57)'
-          })
-          .generateTrail()
-          .gravity("Ground")
-          .gravityConst(GRAVITY)
-          .twoway(0,10);
+            , w: 66
+            , h: 66
+          });
         
         
         // Place ground in Level  
@@ -95,9 +159,9 @@ Crafty.c("Level", {
 	// Generate the blocks for the player to dodge
 	generateObjects: function(numEnemies){
 		for(var i = 0; i< numEnemies; i++){
-			Crafty.e("2D, DOM, Other")
+			Crafty.e("2D, DOM, Other, Enemy")
 	    	.attr({
-				x: 100 * (i*Math.random()*200)
+				x: (i*Math.random()*200)
 		  		, y: 120 
 		  		, w: 100
 				, h: 100
