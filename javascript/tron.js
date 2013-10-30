@@ -50,16 +50,17 @@ Crafty.scene("Game", function() {
 
 
     // UI
-    Crafty.e("2D, DOM, Color, Mouse")
-            .color("red")
+    var pausePlay = Crafty.e("2D, DOM, Color, Mouse, Image")
             .css({"cursor": "pointer"})
+            .image("images/pause.png")
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
-        if (this.isPaused) {
-            Crafty.c();
-        }
-        else {
-            Crafty.pause();
-        }
-    });
+		        if (this.isPaused) {
+		            Crafty.c();
+		        }
+		        else {
+		            Crafty.pause();
+		        }
+			});
+			
 });
