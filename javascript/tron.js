@@ -44,12 +44,15 @@ Crafty.scene("Menu", function() {
 
 Crafty.scene("Game", function() {
 
+	// Add Constant background
     Crafty.background('url(images/city-bg.png)');
 
+
+	// Generate Level 1
     level1 = Crafty.e("Level").generateObjects(10);
 
 
-    // UI
+    // UI - pause button. will be modifying in the future
     var pausePlay = Crafty.e("2D, DOM, Color, Mouse, Image")
             .css({"cursor": "pointer"})
             .image("images/pause.png")
