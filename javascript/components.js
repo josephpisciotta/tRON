@@ -68,6 +68,8 @@ Crafty.c("Other", {
 Crafty.c("Block", {
 	init: function(){
 		this.requires("Collision");
+		
+		// When a block colledes with a Player, stop movement of all "Other" entities.
 		this.onHit("Player", function(){
 			var others = Crafty("Other");
 			for( var i = 0; i< others.length; i++){
@@ -102,43 +104,6 @@ Crafty.c("Ground", {
 });
 
 
-// Trail behind player and enemies
-
-Crafty.c("PlayerTrail", {
-	generateTrail: function(){
-		var options = {
-			maxParticles: 200,
-			size: 20,
-			sizeRandom: 0,
-			speed: 30,
-			speedRandom: 15,
-			// Lifespan in frames
-			lifeSpan: 30,
-			lifeSpanRandom: 0,
-			// Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
-			angle: 270,
-			angleRandom: 0,
-			startColour: [0, 200, 0, 1],
-			startColourRandom: [0, 20, 0, 1],
-			endColour: [0, 200, 0, 1],
-			// Only applies when fastMode is off, specifies how sharp the gradients are drawn
-			sharpness: 20,
-			sharpnessRandom: 0,
-			// Random spread from origin
-			spread: 2,
-			// How many frames should this last
-			duration: -1,
-			// Will draw squares instead of circle gradients
-			fastMode: false,
-			gravity: { x: -3, y: 0 },
-			// sensible values are 0-3
-			jitter: 0
-		}
-		
-		return this;
-	}
-});
-
 
 // Level Generator
 
@@ -155,6 +120,8 @@ Crafty.c("Level", {
             , w: 66
             , h: 66
           });
+          
+          // Options to be used by player trail.
           var options = {
 			maxParticles: 200,
 			size: 20,
@@ -183,10 +150,14 @@ Crafty.c("Level", {
 			// sensible values are 0-3
 			jitter: 0
 		}
+		
+		// Creates Player Trail
         Crafty.e("2D,DOM,Particles").particles(options).attr({
-			x:player_character.x
-			,y: player_character.y+player_character.h-30})
+				x:player_character.x
+				,y: player_character.y+player_character.h-30
+			})
 			.bind("EnterFrame", function(){
+				// changes trail's coords to match the PC everytime the game loop is called.
 				this.x = player_character.x;
 				this.y = player_character.y+player_character.h-30;
 			});
@@ -198,24 +169,26 @@ Crafty.c("Level", {
 	
 	// Generate the blocks for the player to dodge
 	generateObjects: function(numEnemies){
+	
 		for(var i = 0; i< numEnemies; i++){
 					
 			var new_object = Crafty.e("2D, DOM, Other, Enemy, Block")
 	    		.attr({
-					x: (Math.random()*MAP_WIDTH)
+					x: (Math.random()*MAP_WIDTH)    // Random Box location on map
 			  		, y: 400 
-			  		, w: 100 + (Math.random()*100)
+			  		, w: 100 + (Math.random()*100)  // Random box size between 100-200
 					, h: 50
 				})
 				.css({"background-color": 'rgb(104, 184, 208)'});
-			this._Objects.push(new_object);
 			
+			// Add new box object to object array
+			this._Objects.push(new_object);
 		}
-		//this.adjustObjects();
+		//this.adjustObjects(); temp disabled. will ensure proper obstaclel placement
 	},
 	
 	// Generate the enemies that are chasing Ron
 	generateEnemies: function(){
-		
+		// TODO: generate the enemies that chase PC
 	}
 });
