@@ -24,9 +24,9 @@ Game = {
         Crafty.init(Game.width(), Game.height());
 
         Crafty.background('url(images/main-menu-bg.png)');
-        
 
-		
+
+
 
         Crafty.scene("Menu");
     }
@@ -37,18 +37,18 @@ Crafty.scene("Menu", function() {
             .attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-				Crafty.scene("Game");
-			});
+        Crafty.scene("Game");
+    });
 
 });
 
 Crafty.scene("Game", function() {
 
-	// Add Constant background
+    // Add Constant background
     Crafty.background('url(images/city-bg.png)');
 
 
-	// Generate Level 1
+    // Generate Level 1
     level1 = Crafty.e("Level").generateObjects(10);
 
 
@@ -58,12 +58,12 @@ Crafty.scene("Game", function() {
             .image("images/pause.png")
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
-		        if (this.isPaused) {
-		            Crafty.c();
-		        }
-		        else {
-		            Crafty.pause();
-		        }
-			});
-			
+        if (this.isPaused) {
+            Crafty.c();
+        }
+        else {
+            Crafty.pause();
+        }
+    });
+
 });
