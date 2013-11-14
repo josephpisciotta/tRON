@@ -49,11 +49,11 @@ Crafty.scene("Game", function() {
 
 
     // Generate Level 1
-    level1 = Crafty.e("Level").generateObjects(10);
+    _Level1 = Crafty.e("Level").generateObjects(10);
 
 
     // UI - pause button. will be modifying in the future
-    var pausePlay = Crafty.e("2D, DOM, Color, Mouse, Image")
+    _PausePlayButton = Crafty.e("2D, DOM, Color, Mouse, Image")
             .css({"cursor": "pointer"})
             .image("images/pause.png")
             .attr({w: 100, h: 100, paused: false})
@@ -65,5 +65,12 @@ Crafty.scene("Game", function() {
             Crafty.pause();
         }
     });
+
+    // score
+    _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
+        x: Crafty.viewport.width - 120,
+        y: 25,
+        w: 200,
+        h: 50}).css({color: "#fff"}).text("Score: 0");
 
 });

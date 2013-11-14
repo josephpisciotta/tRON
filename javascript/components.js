@@ -6,29 +6,98 @@ Crafty.c("Button", {
 // Player
 Crafty.sprite(67, "images/tRON.png", {player: [0, 0]});
 
-// Rewards
-Crafty.c("Reward", {
-    value: 10,
-    init: function() {
+/**
+ * Score Component
+ */
+Crafty.c('Score', {
+    /**
+     * @private
+     * @property {int} _score
+     */
+    _score: 0,
+    /**
+     * Increments Player score
+     * @public
+     * @param {int} by value to increment score by
+     * @returns {Score} score component
+     */
+    incrementScore: function(by) {
+        this._score += by;
+        this.displayScore();
+        return this;
+    },
+    /**
+     * Decrements player score
+     * @public
+     * @param {int} by value to decrement score by
+     * @returns {Score} score component
+     */
+    decrementScore: function(by) {
+        this._score -= by;
+        this.displayScore();
+        return this;
+    },
+    /**
+     * Gets current score
+     * @public
+     * @returns {int} score
+     */
+    getScore: function() {
+        return this._score;
+    },
+    /**
+     * Displays current score
+     * @public
+     */
+    displayScore: function() {
+        _ScoreEntity.text("Score: " + this.getScore());
+    }
+});
 
-        var reward = this;
+/**
+ * Reward Component
+ */
+Crafty.c("Reward", {
+    /**
+     * @private
+     * @property {int} _value value of reward
+     */
+    _value: 10,
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
 
         // Load required things
         this.requires("2D, DOM, SpriteAnimation");
         this.requires("Multiway, Collision");
 
         // Increase player points on colission
-        this.onHit("Player", function(objs) {
-            var player = objs[0].obj;
-            player.points += reward.value;
-            console.log("Player points ====> " + player.points);
+        this.onHit("Player", function() {
+            this.destroy();
+            Crafty('Score').incrementScore(this.getValue());
         });
 
+    },
+    /**
+     * Gets value of reward
+     * @public
+     * @returns {int} rewards value
+     */
+    getValue: function() {
+        return this._value;
     }
 });
 
+/**
+ * Player component
+ */
 Crafty.c("Player", {
-    points: 0,
+    /**
+     * Constructor
+     * @public
+     */
     init: function() {
 
         // Load required things
@@ -63,6 +132,10 @@ Crafty.c("Player", {
         });
 
     },
+    /**
+     * Stops player from falling
+     * @public
+     */
     stopFalling: function() {
         this._speed = 0;
         if (this._movement) {
@@ -72,20 +145,39 @@ Crafty.c("Player", {
     }
 });
 
-// All other components that exist in the planet of this game. 
+
+/**
+ * All other components that exist in the planet of this game. 
+ */
 Crafty.c("Other", {
+    /**
+     * Constructor
+     * @public
+     */
     init: function() {
         this.bind("EnterFrame", function() {
             this.x -= GAME_SPEED;
         });
     },
+    /**
+     * Stops other components from moving
+     * @public
+     * @returns {Other} other component
+     */
     stopMovement: function() {
         this.x += GAME_SPEED;
         return this;
     }
 });
 
+/**
+ * Block platform component
+ */
 Crafty.c("Block", {
+    /**
+     * Constructor
+     * @public
+     */
     init: function() {
         this.requires("Collision");
 
@@ -100,19 +192,41 @@ Crafty.c("Block", {
     }
 });
 
-// Enemy
-// All things that slow him down when hit or kill him will be an enemy
+/**
+ * Enemy
+ * All things that slow him down when hit or kill him will be an enemy
+ */
 Crafty.c("Enemy", {
 });
 
-
-// The ground component
-
+/**
+ * Ground Component
+ */
 Crafty.c("Ground", {
+    /**
+     * @private
+     * @property {int} _xPos - x position
+     */
     _xPos: 0,
+    /**
+     * @private
+     * @property {int} _yPos - y position
+     */
     _yPos: 460,
+    /**
+     * @private
+     * @property {int} _width - ground width
+     */
     _width: MAP_WIDTH,
+    /**
+     * @private
+     * @property {int} _height - height of the ground
+     */
     _height: 20,
+    /**
+     * Constructor
+     * @public
+     */
     init: function() {
         this.x = this._xPos;
         this.y = this._yPos;
@@ -124,10 +238,19 @@ Crafty.c("Ground", {
 
 
 
-// Level Generator
-
+/**
+ * Level Generator
+ */
 Crafty.c("Level", {
+    /**
+     * @private
+     * @property {array} _Objects - contains all the enemy and block components
+     */
     _Objects: new Array(),
+    /**
+     * Constructor
+     * @public
+     */
     init: function() {
 
         // place PC in game
@@ -184,7 +307,11 @@ Crafty.c("Level", {
         // Place ground in Level  
         ground = Crafty.e("2D, DOM, Other, Ground");
     },
-    // Generate the blocks for the player to dodge
+    /**
+     * Generates the blocks for the player to dodge
+     * @public
+     * @param {int} numEnemies - number of enemies to add to the world
+     */
     generateObjects: function(numEnemies) {
 
         for (var i = 0; i < numEnemies; i++) {
@@ -212,7 +339,10 @@ Crafty.c("Level", {
         }
         //this.adjustObjects(); temp disabled. will ensure proper obstaclel placement
     },
-    // Generate the enemies that are chasing Ron
+    /**
+     * Generate the enemies that are chasing Ron
+     * @public
+     */
     generateEnemies: function() {
         // TODO: generate the enemies that chase PC
     }
