@@ -102,11 +102,11 @@ Crafty.c("Player", {
 
         // Load required things
         this.requires("2D, DOM, SpriteAnimation");
-        this.requires("Multiway, Gravity, Collision");
+        this.requires("Twoway, Gravity, Collision");
         this.requires("Keyboard, PlayerTrail, player, SpriteAnimation, Text");
 
         // Set up controlls, gravity, ground interaction
-        this.multiway(10, {UP_ARROW: -90, DOWN_ARROW: 90})
+        this.twoway(0, 10)
                 //.generateTrail()
                 .gravity("Other")
                 .gravityConst(GRAVITY)
