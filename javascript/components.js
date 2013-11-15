@@ -70,7 +70,7 @@ Crafty.c("Reward", {
     init: function() {
 
         // Load required things
-        this.requires("2D, DOM, SpriteAnimation");
+        this.requires("2D, DOM, Other, SpriteAnimation");
         this.requires("Multiway, Collision");
 
         // Increase player points on colission
@@ -179,7 +179,7 @@ Crafty.c("Block", {
      * @public
      */
     init: function() {
-        this.requires("Collision");
+        this.requires("2D, DOM, Other, Enemy, Collision");
 
         // When a block colledes with a Player, stop movement of all "Other" entities.
         this.onHit("Player", function() {
@@ -228,6 +228,7 @@ Crafty.c("Ground", {
      * @public
      */
     init: function() {
+    	this.requires("2D, DOM, Other"); 
         this.x = this._xPos;
         this.y = this._yPos;
         this.w = this._width;
@@ -305,7 +306,7 @@ Crafty.c("Level", {
 
 
         // Place ground in Level  
-        ground = Crafty.e("2D, DOM, Other, Ground");
+        ground = Crafty.e("Ground");
     },
     /**
      * Generates the blocks for the player to dodge
@@ -316,7 +317,7 @@ Crafty.c("Level", {
 
         for (var i = 0; i < numEnemies; i++) {
 
-            var new_object = Crafty.e("2D, DOM, Other, Enemy, Block")
+            var new_object = Crafty.e("Block")
                     .attr({
                 x: (Math.random() * MAP_WIDTH)    // Random Box location on map
                         , y: 400
@@ -325,7 +326,7 @@ Crafty.c("Level", {
             }).css({"background-color": 'rgb(104, 184, 208)'});
 
             // rewards
-            var reward_obj = Crafty.e("Other, Reward")
+            var reward_obj = Crafty.e("Reward")
                     .attr({
                 x: (Math.random() * MAP_WIDTH)    // Random Box location on map
                         , y: 300
