@@ -3,11 +3,15 @@ Crafty.c("Button", {
 });
 
 
-// FinishScene
 Crafty.scene("FinishScene", function(){
 	    // Add Constant background
     Crafty.background('url(images/city-bg2.png)');
     Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
+    _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
+        x: Crafty.viewport.width - 120,
+        y: 25,
+        w: 200,
+        h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();});
 });
 
 // Finish line
@@ -281,7 +285,7 @@ Crafty.c("Enemy", {
         this.bind("EnterFrame", function(){
 	        this.x += GAME_SPEED - 3;
         })
-        .image("images/enemies2.png","no-repeat");
+        .image("images/1enemy.png","no-repeat");
 
     },
     stopMovement: function(){
