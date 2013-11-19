@@ -273,14 +273,15 @@ Crafty.c("Block", {
  */
 Crafty.c("Enemy", {
     init: function() {
-        this.requires("2D, DOM, Solid, Gravity");
+        this.requires("2D, DOM, Solid, Gravity, Image");
         this.gravity("Ground")
                 .gravityConst(GRAVITY)
-                .attr({x: 50, y: 200, w: 20, h: 40})
-                .css({"background-color": "red"});
+                .attr({x: 66, y: 66, w: 20, h: 40})
+                .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
         this.bind("EnterFrame", function(){
 	        this.x += GAME_SPEED - 3;
-        });
+        })
+        .image("images/enemies2.png","no-repeat");
 
     },
     stopMovement: function(){
