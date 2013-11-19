@@ -273,15 +273,19 @@ Crafty.c("Block", {
  */
 Crafty.c("Enemy", {
     init: function() {
-        this.requires("2D, DOM, Solid, Other, Gravity");
+        this.requires("2D, DOM, Solid, Gravity");
         this.gravity("Ground")
                 .gravityConst(GRAVITY)
                 .attr({x: 50, y: 200, w: 20, h: 40})
                 .css({"background-color": "red"});
-        this.bind("EnterFrame", function() {
-            this.x -= GAME_SPEED;
-        })
+        this.bind("EnterFrame", function(){
+	        this.x += GAME_SPEED - 3;
+        });
 
+    },
+    stopMovement: function(){
+	    this.x += GAME_SPEED + 3 ;
+        return this;
     }
 });
 
@@ -437,13 +441,13 @@ Crafty.c("Level", {
             this.z = 100;
         });
 
-        enemy = Crafty.e("Enemy");
+        enemy = Crafty.e("Other, Enemy");
         
         // Place ground in Level  
         ground = Crafty.e("Ground");
         
         // Place Finish line
-        finishLine = Crafty.e("Finish").attr({x: 2000, y:0}).css({"background-color":"white"});
+        finishLine = Crafty.e("Finish").attr({x: MAP_WIDTH - 200, y:0}).css({"background-color":"none"});
     },
     /**
      * Generates the blocks for the player to dodge
