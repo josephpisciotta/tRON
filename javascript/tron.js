@@ -38,6 +38,7 @@ Crafty.scene("Menu", function() {
             .css({"cursor": "pointer"})
             .bind("Click", function() {
         Crafty.scene("Game");
+
     });
 
 });
@@ -46,10 +47,12 @@ Crafty.scene("Game", function() {
 
     // Add Constant background
     Crafty.background('url(images/city-bg2.png)');
+	
 
 
     // Generate Level 1
     _Level1 = Crafty.e("Level").generateObjects(10);
+	
 
 
     // UI - pause button. will be modifying in the future
@@ -72,5 +75,6 @@ Crafty.scene("Game", function() {
         y: 25,
         w: 200,
         h: 50}).css({color: "#fff"}).text("Score: 0");
+
 
 });
