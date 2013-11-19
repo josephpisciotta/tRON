@@ -22,12 +22,6 @@ Game = {
     start: function() {
         // Start crafty and set a background color so that we can see it's working
         Crafty.init(Game.width(), Game.height());
-
-
-
-        Crafty.background('url(images/main-menu-bg.png)');
-
-
         Crafty.canvas.init();
         Crafty.background('url(images/main-menu-bg.png)');
         Crafty.audio.add("space", "media/music/through-space.mp3");
@@ -39,14 +33,8 @@ Game = {
 Crafty.scene("Menu", function() {
     Crafty.e("2D, DOM, Color, Mouse")
             .attr({w: 110, h: 50, x: 342, y: 310})
-            .bind("Click", function() {
-        Crafty.scene("Game");
-    });
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-				Crafty.scene("Game");
-			});
-
         Crafty.scene("Game");
     });
 
@@ -54,40 +42,20 @@ Crafty.scene("Menu", function() {
 
 Crafty.scene("Game", function() {
 
-    Crafty.background('url(images/city-bg.png)');
+    // Add Constant background
+    Crafty.background('url(images/city-bg2.png)');
 
 
     // Generate Level 1
     _Level1 = Crafty.e("Level").generateBlocks(20).generateCoins(100);
 
 
-    Crafty.e("2D, DOM, Color, Mouse")
-            .color("red")
-            .attr({w: 100, h: 100, paused: false})
-            .bind("Click", function() {
-        if (this.isPaused) {
-            Crafty.c();
-        }
-        else {
-            Crafty.pause();
-        }
-    });
-
-
     // UI - pause button. will be modifying in the future
     _PausePlayButton = Crafty.e("2D, DOM, Color, Mouse, Image")
-             .css({"cursor": "pointer"})
+            .css({"cursor": "pointer"})
             .image("images/pause.png")
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
-		        if (this.isPaused) {
-		            Crafty.c();
-		        }
-		        else {
-		            Crafty.pause();
-		        }
-			});
-
         if (this.isPaused) {
             Crafty.c();
         }
@@ -103,7 +71,5 @@ Crafty.scene("Game", function() {
         w: 200,
         h: 50}).css({color: "#fff"}).text("Score: 0");
 
-
 });
-
 
