@@ -352,23 +352,16 @@ Crafty.c("Level", {
         Crafty.audio.play("space");
 
         // background
-<<<<<<< HEAD
          _Backround = Crafty.e("Background");
        
         
- /*
-       // progress bar
-=======
-        _Backround = Crafty.e("Background");
-
+ 
 
         // progress bar
->>>>>>> 207a26be1bd9247134e47644e7f23710b2a9fe49
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
                 .progressBar(100, false, "blue", "green")
                 .updateBarProgress(30);
-*/
 
         // place PC in game
         _Player = Crafty.e("Player")
