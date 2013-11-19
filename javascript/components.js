@@ -4,7 +4,7 @@ Crafty.c("Button", {
 
 
 // Player
-Crafty.sprite(67, "images/tRON.png", {player: [0, 0]});
+Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
 /**
  * Score Component
@@ -230,14 +230,15 @@ Crafty.c("Block", {
      * @public
      */
     init: function() {
-        this.requires("2D, DOM, Touchable, Enemy, Collision");
+        this.requires("2D, DOM, Touchable, Collision");
 
         // When a block colledes with a Player, stop movement of all "Other" entities.
         this.onHit("Player", function() {
             var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
-
-                Crafty(others[i]).stopMovement();
+            	var ob = Crafty(others[i]);
+				if(others[i])
+                	Crafty(others[i]).stopMovement();
             }
         });
     }
@@ -248,6 +249,17 @@ Crafty.c("Block", {
  * All things that slow him down when hit or kill him will be an enemy
  */
 Crafty.c("Enemy", {
+	init:function(){
+		this.requires("2D, DOM, Solid, Other, Gravity");
+		this.gravity("Ground")
+		    .gravityConst(GRAVITY)
+		    .attr({x: 50, y: 200, w:20, h:40})
+		    .css({"background-color":"red"});
+		this.bind("EnterFrame", function(){
+			this.x -= GAME_SPEED;
+		})
+
+	}
 });
 
 Crafty.c("Touchable", {
@@ -276,11 +288,8 @@ Crafty.c("Background", {
      */
     init: function() {
         this.requires("2D, Image, Canvas, Other");
-        this.image("images/cityscape.png", "repeat-x");
-        this.attr({x: 0, y: 10, w: MAP_WIDTH, h: 500});
-        this.bind("EnterFrame", function(){
-            //this.z = 0;
-        });
+        this.image("images/cityscape2.png", "repeat-x");
+        this.attr({x: 0, y: 400, w: MAP_WIDTH, h: 500});
     }
 });
 
@@ -332,7 +341,8 @@ Crafty.c("Level", {
      * @private
      * @property {array} _Objects - contains all the enemy and block components
      */
-    _Objects: new Array(),
+    _BlockObjects: new Array(),
+    _CoinObjects: new Array(),
     /**
      * Constructor
      * @public
@@ -345,7 +355,7 @@ Crafty.c("Level", {
         
         // progress bar
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
-                .attr({x: 150, y: 15, w: 100, h: 25, z: 100})
+                .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
                 .progressBar(100, false, "blue", "green")
                 .updateBarProgress(30);
 
@@ -400,28 +410,52 @@ Crafty.c("Level", {
             this.z = 100;
         });
 
-
+		enemy = Crafty.e("Enemy");
         // Place ground in Level  
         ground = Crafty.e("Ground");
     },
+    
     /**
      * Generates the blocks for the player to dodge
      * @public
      * @param {int} numEnemies - number of enemies to add to the world
      */
-    generateObjects: function(numEnemies) {
-
+    generateBlocks: function(numEnemies) {
+		// current Block X pos
+		var currentBX = 0;
+		
+		// grid block size 
+		var segmentSize = MAP_WIDTH/numEnemies;
         for (var i = 0; i < numEnemies; i++) {
 
-            var new_object = Crafty.e("Block")
-                    .attr({
-                x: (Math.random() * MAP_WIDTH)    // Random Box location on map
-                        , y: 400
-                        , w: 100 + (Math.random() * 100)  // Random box size between 100-200
-                        , h: 50
-            }).css({"background-color": 'rgb(104, 184, 208)'});
+			var block_width = 100 + Math.floor((Math.random() * 100));
+			
+			var offset_width = Math.floor(Math.random() * (segmentSize - block_width));
+			
+			
+			var block_x = currentBX + offset_width + block_width;
+			
 
+            var block_object = Crafty.e("Block")
+                    .attr({
+						x: block_x     // Random Box location on map
+                        , y: 400
+                        , w: block_width  // Random box size between 100-200
+                        , h: 50
+            })
+            .css({"background-color": 'rgb(104, 184, 208)'});
+            
+            // set pastX
+            currentBX += segmentSize;
+            this._BlockObjects.push(block_object);
+
+		}
+		return this;
+	},
+	
+	generateCoins: function(numCoins){
             // rewards
+        for (var i = 0; i < numCoins; i++) {
             var reward_obj = Crafty.e("Reward")
                     .attr({
                 x: (Math.random() * MAP_WIDTH)    // Random Box location on map
@@ -430,11 +464,11 @@ Crafty.c("Level", {
                         , h: 50
             }).css({"background-color": 'orange'});
 
-            // Add new box object to object array
-            this._Objects.push(new_object);
-            this._Objects.push(reward_obj);
+            // Add new box object and reward to object array
+            this._CoinObjects.push(reward_obj);
         }
-        //this.adjustObjects(); temp disabled. will ensure proper obstaclel placement
+        return this;
+        //this.adjustBlocks(); // will ensure proper obstaclel placement
     },
     /**
      * Generate the enemies that are chasing Ron
@@ -442,5 +476,6 @@ Crafty.c("Level", {
      */
     generateEnemies: function() {
         // TODO: generate the enemies that chase PC
-    }
+    },
+    
 });
