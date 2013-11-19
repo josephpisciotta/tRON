@@ -3,6 +3,29 @@ Crafty.c("Button", {
 });
 
 
+// FinishScene
+Crafty.scene("FinishScene", function(){
+	    // Add Constant background
+    Crafty.background('url(images/city-bg2.png)');
+    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
+});
+
+// Finish line
+Crafty.c("Finish", {
+	init: function(){
+		this.requires("2D, DOM, Collision, Touchable");
+        this.attr({
+                w: 40  // Random box size between 100-200
+              , h: 5000
+        })
+        	.css({"background-color": 'none'})
+			.onHit("Player", function(){
+				Crafty.scene("FinishScene");
+			});
+	}
+});
+
+
 // Player
 Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
@@ -415,8 +438,12 @@ Crafty.c("Level", {
         });
 
         enemy = Crafty.e("Enemy");
+        
         // Place ground in Level  
         ground = Crafty.e("Ground");
+        
+        // Place Finish line
+        finishLine = Crafty.e("Finish").attr({x: 2000, y:0}).css({"background-color":"white"});
     },
     /**
      * Generates the blocks for the player to dodge
@@ -428,12 +455,12 @@ Crafty.c("Level", {
         var currentBX = 0;
 
         // grid block size 
-        var segmentSize = MAP_WIDTH / numEnemies;
+        var segmentSize = (MAP_WIDTH - 500) / numEnemies;
         for (var i = 0; i < numEnemies; i++) {
 
             var block_width = 100 + Math.floor((Math.random() * 100));
 
-            var offset_width = Math.floor(Math.random() * (segmentSize - block_width));
+            var offset_width = 50 + Math.floor(Math.random() * (segmentSize - block_width));
 
 
             var block_x = currentBX + offset_width + block_width;

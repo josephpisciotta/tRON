@@ -72,3 +72,4 @@ Crafty.scene("Game", function() {
         h: 50}).css({color: "#fff"}).text("Score: 0");
 
 });
+
