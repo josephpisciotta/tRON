@@ -45,7 +45,7 @@ Crafty.scene("Menu", function() {
 Crafty.scene("Game", function() {
 
     // Add Constant background
-    Crafty.background('url(images/city-bg.png)');
+    Crafty.background('url(images/city-bg2.png)');
 
 
     // Generate Level 1
