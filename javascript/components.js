@@ -4,7 +4,7 @@ Crafty.c("Button", {
 
 
 // Player
-Crafty.sprite(67, "images/tRON.png", {player: [0, 0]});
+Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
 /**
  * Score Component
@@ -103,7 +103,7 @@ Crafty.c("Player", {
         // Load required things
         this.requires("2D, DOM, SpriteAnimation");
         this.requires("Twoway, Gravity, Collision");
-        this.requires("Keyboard, PlayerTrail, player, SpriteAnimation, Text");
+        this.requires("Keyboard, player, Text");
 
         // Set up controlls, gravity, ground interaction
         this.twoway(0, 10)
@@ -126,7 +126,7 @@ Crafty.c("Player", {
                 this.animate("PlayerUp", 15, 0);
             }
             else {
-                this.animate("PlayerNormal", 1, 1);
+                this.animate("PlayerNormal", 1, 0);
             }
 
         });
