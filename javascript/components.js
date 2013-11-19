@@ -16,19 +16,42 @@ Crafty.c('Score', {
      */
     _score: 0,
     /**
+     * @private
+     * @property {int} _coinsInARow
+     */
+    _coinsInARow: 0,
+    /**
+     * @private
+     * @property {int} _pointMultiplier 
+     */
+    _pointMultiplier: 1,
+    /**
+     * Sets our point multiplier
+     * @public
+     * @method setPointMultiplier
+     * @param {int} value
+     * @returns {Score} score component
+     */
+    setPointMultiplier: function(value) {
+        this._pointMultiplier = value;
+        return this;
+    },
+    /**
      * Increments Player score
      * @public
+     * @method incrementScore
      * @param {int} by value to increment score by
      * @returns {Score} score component
      */
     incrementScore: function(by) {
-        this._score += by;
+        this._score += (by * this._pointMultiplier);
         this.displayScore();
         return this;
     },
     /**
      * Decrements player score
      * @public
+     * @method decrementScore
      * @param {int} by value to decrement score by
      * @returns {Score} score component
      */
@@ -40,6 +63,7 @@ Crafty.c('Score', {
     /**
      * Gets current score
      * @public
+     * @method getScore
      * @returns {int} score
      */
     getScore: function() {
@@ -48,6 +72,7 @@ Crafty.c('Score', {
     /**
      * Displays current score
      * @public
+     * @method displayScore
      */
     displayScore: function() {
         _ScoreEntity.text("Score: " + this.getScore());
@@ -83,6 +108,7 @@ Crafty.c("Reward", {
     /**
      * Gets value of reward
      * @public
+     * @method getValue
      * @returns {int} rewards value
      */
     getValue: function() {
@@ -94,6 +120,11 @@ Crafty.c("Reward", {
  * Player component
  */
 Crafty.c("Player", {
+    /**
+     * @private
+     * @property {int} _lives contains the current player's lives
+     */
+    _lives: 5,
     /**
      * Constructor
      * @public
@@ -108,9 +139,9 @@ Crafty.c("Player", {
         // Set up controlls, gravity, ground interaction
         this.twoway(0, 10)
                 //.generateTrail()
-                .gravity("Other")
+                .gravity("Touchable")
                 .gravityConst(GRAVITY)
-                .onHit("Other", this.stopFalling);
+                .onHit("Touchable", this.stopFalling);
 
         // player state animations
         this.animate("PlayerUp", [[1, 0], [0, 0]])
@@ -131,6 +162,26 @@ Crafty.c("Player", {
 
         });
 
+    },
+    /**
+     * Gets player's lives
+     * @public
+     * @method getLives
+     * @returns {int} lives
+     */
+    getLives: function() {
+        return this._lives;
+    },
+    /**
+     * Decreases player's lives
+     * @public
+     * @method decreaseLives
+     * @param {int} by value by which we want to decrease the lives
+     * @returns {}
+     */
+    decreaseLives: function(by) {
+        this._lives -= by;
+        return this;
     },
     /**
      * Stops player from falling
@@ -179,7 +230,7 @@ Crafty.c("Block", {
      * @public
      */
     init: function() {
-        this.requires("2D, DOM, Other, Enemy, Collision");
+        this.requires("2D, DOM, Touchable, Enemy, Collision");
 
         // When a block colledes with a Player, stop movement of all "Other" entities.
         this.onHit("Player", function() {
@@ -197,6 +248,40 @@ Crafty.c("Block", {
  * All things that slow him down when hit or kill him will be an enemy
  */
 Crafty.c("Enemy", {
+});
+
+Crafty.c("Touchable", {
+    init: function(){
+        this.requires("Other");
+    }
+});
+
+/**
+ * Background component
+ */
+Crafty.c("Background", {
+    /**
+     * @private
+     * @property {int} _width
+     */
+    _width: 1500,
+    /**
+     * @private
+     * @property {int} _height
+     */
+    _height: 500,
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
+        this.requires("2D, DOM, Other, Image");
+        this.image("images/cityscape.png", "repeat-x");
+        this.attr({x: 0, y: 0, w: MAP_WIDTH, h: 500, z:-1});
+        this.bind("EnterFrame", function(){
+            this.z = 0;
+        })
+    }
 });
 
 /**
@@ -228,7 +313,7 @@ Crafty.c("Ground", {
      * @public
      */
     init: function() {
-    	this.requires("2D, DOM, Other"); 
+        this.requires("2D, DOM, Touchable");
         this.x = this._xPos;
         this.y = this._yPos;
         this.w = this._width;
@@ -253,9 +338,18 @@ Crafty.c("Level", {
      * @public
      */
     init: function() {
+        
+        // background
+        _Backround = Crafty.e("Background");
+        
+        // progress bar
+        _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
+                .attr({x: 150, y: 15, w: 100, h: 25, z: 100})
+                .progressBar(100, false, "blue", "green")
+                .updateBarProgress(30);
 
         // place PC in game
-        player_character = Crafty.e("Player")
+        _Player = Crafty.e("Player")
                 .attr({
             x: 400
                     , y: 340
@@ -294,14 +388,15 @@ Crafty.c("Level", {
         };
 
         // Creates Player Trail
-        Crafty.e("2D,DOM,Particles").particles(options).attr({
-            x: player_character.x
-                    , y: player_character.y + player_character.h - 30
+        _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
+            x: _Player.x
+                    , y: _Player.y + _Player.h - 30, z:100
         })
                 .bind("EnterFrame", function() {
             // changes trail's coords to match the PC everytime the game loop is called.
-            this.x = player_character.x;
-            this.y = player_character.y + player_character.h - 30;
+            this.x = _Player.x;
+            this.y = _Player.y + _Player.h - 30;
+            this.z = 100;
         });
 
 
