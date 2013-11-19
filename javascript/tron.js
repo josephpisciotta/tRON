@@ -22,26 +22,15 @@ Game = {
     start: function() {
         // Start crafty and set a background color so that we can see it's working
         Crafty.init(Game.width(), Game.height());
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        Crafty.background("url(images/main-menu-bg.png)");
-=======
+
+
 
         Crafty.background('url(images/main-menu-bg.png)');
 
-<<<<<<< HEAD
-		
->>>>>>> nightly
-=======
 
-
->>>>>>> nightly
-=======
         Crafty.canvas.init();
         Crafty.background('url(images/main-menu-bg.png)');
         Crafty.audio.add("space", "media/music/through-space.mp3");
->>>>>>> nightly
 
         Crafty.scene("Menu");
     }
@@ -50,46 +39,28 @@ Game = {
 Crafty.scene("Menu", function() {
     Crafty.e("2D, DOM, Color, Mouse")
             .attr({w: 110, h: 50, x: 342, y: 310})
-<<<<<<< HEAD
             .bind("Click", function() {
         Crafty.scene("Game");
     });
-=======
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-<<<<<<< HEAD
 				Crafty.scene("Game");
 			});
->>>>>>> nightly
-=======
+
         Crafty.scene("Game");
     });
->>>>>>> nightly
 
 });
 
 Crafty.scene("Game", function() {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    Crafty.background("url(images/city-bg.png)");
-=======
     Crafty.background('url(images/city-bg.png)');
 
->>>>>>> nightly
-    level1 = Crafty.e("Level").generateObjects(10);
-=======
-    // Add Constant background
-    Crafty.background('url(images/city-bg2.png)');
-
->>>>>>> nightly
 
     // Generate Level 1
     _Level1 = Crafty.e("Level").generateBlocks(20).generateCoins(100);
 
-<<<<<<< HEAD
-    // UI
-<<<<<<< HEAD
+
     Crafty.e("2D, DOM, Color, Mouse")
             .color("red")
             .attr({w: 100, h: 100, paused: false})
@@ -101,18 +72,14 @@ Crafty.scene("Game", function() {
             Crafty.pause();
         }
     });
-=======
-    var pausePlay = Crafty.e("2D, DOM, Color, Mouse, Image")
-=======
+
 
     // UI - pause button. will be modifying in the future
     _PausePlayButton = Crafty.e("2D, DOM, Color, Mouse, Image")
->>>>>>> nightly
-            .css({"cursor": "pointer"})
+             .css({"cursor": "pointer"})
             .image("images/pause.png")
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
-<<<<<<< HEAD
 		        if (this.isPaused) {
 		            Crafty.c();
 		        }
@@ -120,9 +87,7 @@ Crafty.scene("Game", function() {
 		            Crafty.pause();
 		        }
 			});
-			
->>>>>>> nightly
-=======
+
         if (this.isPaused) {
             Crafty.c();
         }
@@ -138,10 +103,7 @@ Crafty.scene("Game", function() {
         w: 200,
         h: 50}).css({color: "#fff"}).text("Score: 0");
 
-<<<<<<< HEAD
->>>>>>> nightly
-});
-=======
+
 });
 
->>>>>>> nightly
+
