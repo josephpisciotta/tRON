@@ -22,7 +22,7 @@ Game = {
     start: function() {
         // Start crafty and set a background color so that we can see it's working
         Crafty.init(Game.width(), Game.height());
-
+        Crafty.canvas.init();
         Crafty.background('url(images/main-menu-bg.png)');
 
 

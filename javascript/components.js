@@ -4,7 +4,7 @@ Crafty.c("Button", {
 
 
 // Player
-Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
+Crafty.sprite(67, "images/tRON.png", {player: [0, 0]});
 
 /**
  * Score Component
@@ -157,7 +157,7 @@ Crafty.c("Player", {
                 this.animate("PlayerUp", 15, 0);
             }
             else {
-                this.animate("PlayerNormal", 1, 0);
+                this.animate("PlayerNormal", 10, 1);
             }
 
         });
@@ -275,12 +275,12 @@ Crafty.c("Background", {
      * @public
      */
     init: function() {
-        this.requires("2D, DOM, Other, Image");
+        this.requires("2D, Image, Canvas, Other");
         this.image("images/cityscape.png", "repeat-x");
-        this.attr({x: 0, y: 0, w: MAP_WIDTH, h: 500, z:-1});
+        this.attr({x: 0, y: 10, w: MAP_WIDTH, h: 500});
         this.bind("EnterFrame", function(){
-            this.z = 0;
-        })
+            //this.z = 0;
+        });
     }
 });
 
@@ -340,7 +340,8 @@ Crafty.c("Level", {
     init: function() {
         
         // background
-        _Backround = Crafty.e("Background");
+         _Backround = Crafty.e("Background");
+       
         
         // progress bar
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
