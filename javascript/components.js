@@ -9,6 +9,33 @@ Crafty.sprite("images/tRON.png"), {tron: [0, 0, 68, 45]};
 Crafty.c("Player", function() {
 =======
 
+Crafty.scene("FinishScene", function(){
+	    // Add Constant background
+    Crafty.background('url(images/city-bg2.png)');
+    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
+    _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
+        x: Crafty.viewport.width - 120,
+        y: 25,
+        w: 200,
+        h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();});
+});
+
+// Finish line
+Crafty.c("Finish", {
+	init: function(){
+		this.requires("2D, DOM, Collision, Touchable");
+        this.attr({
+                w: 40  // Random box size between 100-200
+              , h: 5000
+        })
+        	.css({"background-color": 'none'})
+			.onHit("Player", function(){
+				Crafty.scene("FinishScene");
+			});
+	}
+});
+
+
 // Player
 Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
@@ -22,19 +49,42 @@ Crafty.c('Score', {
      */
     _score: 0,
     /**
+     * @private
+     * @property {int} _coinsInARow
+     */
+    _coinsInARow: 0,
+    /**
+     * @private
+     * @property {int} _pointMultiplier 
+     */
+    _pointMultiplier: 1,
+    /**
+     * Sets our point multiplier
+     * @public
+     * @method setPointMultiplier
+     * @param {int} value
+     * @returns {Score} score component
+     */
+    setPointMultiplier: function(value) {
+        this._pointMultiplier = value;
+        return this;
+    },
+    /**
      * Increments Player score
      * @public
+     * @method incrementScore
      * @param {int} by value to increment score by
      * @returns {Score} score component
      */
     incrementScore: function(by) {
-        this._score += by;
+        this._score += (by * this._pointMultiplier);
         this.displayScore();
         return this;
     },
     /**
      * Decrements player score
      * @public
+     * @method decrementScore
      * @param {int} by value to decrement score by
      * @returns {Score} score component
      */
@@ -46,6 +96,7 @@ Crafty.c('Score', {
     /**
      * Gets current score
      * @public
+     * @method getScore
      * @returns {int} score
      */
     getScore: function() {
@@ -54,6 +105,7 @@ Crafty.c('Score', {
     /**
      * Displays current score
      * @public
+     * @method displayScore
      */
     displayScore: function() {
         _ScoreEntity.text("Score: " + this.getScore());
@@ -76,7 +128,7 @@ Crafty.c("Reward", {
     init: function() {
 
         // Load required things
-        this.requires("2D, DOM, SpriteAnimation");
+        this.requires("2D, DOM, Other, SpriteAnimation");
         this.requires("Multiway, Collision");
 
         // Increase player points on colission
@@ -89,6 +141,7 @@ Crafty.c("Reward", {
     /**
      * Gets value of reward
      * @public
+     * @method getValue
      * @returns {int} rewards value
      */
     getValue: function() {
@@ -100,6 +153,11 @@ Crafty.c("Reward", {
  * Player component
  */
 Crafty.c("Player", {
+    /**
+     * @private
+     * @property {int} _lives contains the current player's lives
+     */
+    _lives: 5,
     /**
      * Constructor
      * @public
@@ -114,9 +172,9 @@ Crafty.c("Player", {
         // Set up controlls, gravity, ground interaction
         this.twoway(0, 10)
                 //.generateTrail()
-                .gravity("Other")
+                .gravity("Touchable")
                 .gravityConst(GRAVITY)
-                .onHit("Other", this.stopFalling);
+                .onHit("Touchable", this.stopFalling);
 
         // player state animations
         this.animate("PlayerUp", [[1, 0], [0, 0]])
@@ -132,11 +190,31 @@ Crafty.c("Player", {
                 this.animate("PlayerUp", 15, 0);
             }
             else {
-                this.animate("PlayerNormal", 1, 0);
+                this.animate("PlayerNormal", 10, 1);
             }
 
         });
 
+    },
+    /**
+     * Gets player's lives
+     * @public
+     * @method getLives
+     * @returns {int} lives
+     */
+    getLives: function() {
+        return this._lives;
+    },
+    /**
+     * Decreases player's lives
+     * @public
+     * @method decreaseLives
+     * @param {int} by value by which we want to decrease the lives
+     * @returns {}
+     */
+    decreaseLives: function(by) {
+        this._lives -= by;
+        return this;
     },
     /**
      * Stops player from falling
@@ -221,14 +299,15 @@ Crafty.c("Block", {
      * @public
      */
     init: function() {
-        this.requires("Collision");
+        this.requires("2D, DOM, Touchable, Collision");
 
         // When a block colledes with a Player, stop movement of all "Other" entities.
         this.onHit("Player", function() {
             var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
-
-                Crafty(others[i]).stopMovement();
+                var ob = Crafty(others[i]);
+                if (others[i])
+                    Crafty(others[i]).stopMovement();
             }
         });
     }
@@ -240,6 +319,53 @@ Crafty.c("Block", {
  * All things that slow him down when hit or kill him will be an enemy
  */
 Crafty.c("Enemy", {
+    init: function() {
+        this.requires("2D, DOM, Solid, Gravity, Image");
+        this.gravity("Ground")
+                .gravityConst(GRAVITY)
+                .attr({x: 66, y: 66, w: 20, h: 40})
+                .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
+        this.bind("EnterFrame", function(){
+	        this.x += GAME_SPEED - 3;
+        })
+        .image("images/1enemy.png","no-repeat");
+
+    },
+    stopMovement: function(){
+	    this.x += GAME_SPEED + 3 ;
+        return this;
+    }
+});
+
+Crafty.c("Touchable", {
+    init: function() {
+        this.requires("Other");
+    }
+});
+
+/**
+ * Background component
+ */
+Crafty.c("Background", {
+    /**
+     * @private
+     * @property {int} _width
+     */
+    _width: 1500,
+    /**
+     * @private
+     * @property {int} _height
+     */
+    _height: 500,
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
+        this.requires("2D, Image, Canvas, Other");
+        this.image("images/cityscape2.png", "repeat-x");
+        this.attr({x: 0, y: 400, w: MAP_WIDTH, h: 500});
+    }
 });
 
 /**
@@ -278,6 +404,7 @@ Crafty.c("Ground", {
      */
 >>>>>>> nightly
     init: function() {
+        this.requires("2D, DOM, Touchable");
         this.x = this._xPos;
         this.y = this._yPos;
         this.w = this._width;
@@ -415,7 +542,8 @@ Crafty.c("Level", {
      * @private
      * @property {array} _Objects - contains all the enemy and block components
      */
-    _Objects: new Array(),
+    _BlockObjects: new Array(),
+    _CoinObjects: new Array(),
     /**
      * Constructor
      * @public
@@ -423,8 +551,22 @@ Crafty.c("Level", {
     init: function() {
 >>>>>>> nightly
 
+        Crafty.audio.play("space");
+
+        // background
+         _Backround = Crafty.e("Background");
+       
+        
+ 
+
+        // progress bar
+        _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
+                .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
+                .progressBar(100, false, "blue", "green")
+                .updateBarProgress(30);
+
         // place PC in game
-        player_character = Crafty.e("Player")
+        _Player = Crafty.e("Player")
                 .attr({
             x: 400
                     , y: 340
@@ -463,18 +605,21 @@ Crafty.c("Level", {
         };
 
         // Creates Player Trail
-        Crafty.e("2D,DOM,Particles").particles(options).attr({
-            x: player_character.x
-                    , y: player_character.y + player_character.h - 30
+        _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
+            x: _Player.x
+                    , y: _Player.y + _Player.h - 30, z: 100
         })
                 .bind("EnterFrame", function() {
             // changes trail's coords to match the PC everytime the game loop is called.
-            this.x = player_character.x;
-            this.y = player_character.y + player_character.h - 30;
+            this.x = _Player.x;
+            this.y = _Player.y + _Player.h - 30;
+            this.z = 100;
         });
 
-
+        enemy = Crafty.e("Other, Enemy");
+        
         // Place ground in Level  
+<<<<<<< HEAD
         ground = Crafty.e("2D, DOM, Other, Ground");
 <<<<<<< HEAD
 	},
@@ -503,26 +648,54 @@ Crafty.c("Level", {
 	}
 >>>>>>> nightly
 =======
+=======
+        ground = Crafty.e("Ground");
+        
+        // Place Finish line
+        finishLine = Crafty.e("Finish").attr({x: MAP_WIDTH - 200, y:0}).css({"background-color":"none"});
+>>>>>>> nightly
     },
     /**
      * Generates the blocks for the player to dodge
      * @public
      * @param {int} numEnemies - number of enemies to add to the world
      */
-    generateObjects: function(numEnemies) {
+    generateBlocks: function(numEnemies) {
+        // current Block X pos
+        var currentBX = 0;
 
+        // grid block size 
+        var segmentSize = (MAP_WIDTH - 500) / numEnemies;
         for (var i = 0; i < numEnemies; i++) {
 
-            var new_object = Crafty.e("2D, DOM, Other, Enemy, Block")
-                    .attr({
-                x: (Math.random() * MAP_WIDTH)    // Random Box location on map
-                        , y: 400
-                        , w: 100 + (Math.random() * 100)  // Random box size between 100-200
-                        , h: 50
-            }).css({"background-color": 'rgb(104, 184, 208)'});
+            var block_width = 100 + Math.floor((Math.random() * 100));
 
-            // rewards
-            var reward_obj = Crafty.e("Other, Reward")
+            var offset_width = 50 + Math.floor(Math.random() * (segmentSize - block_width));
+
+
+            var block_x = currentBX + offset_width + block_width;
+
+
+            var block_object = Crafty.e("Block")
+                    .attr({
+                x: block_x     // Random Box location on map
+                        , y: 400
+                        , w: block_width  // Random box size between 100-200
+                        , h: 50
+            })
+                    .css({"background-color": 'rgb(104, 184, 208)'});
+
+            // set pastX
+            currentBX += segmentSize;
+            this._BlockObjects.push(block_object);
+
+        }
+        return this;
+    },
+    generateCoins: function(numCoins) {
+        // rewards
+        for (var i = 0; i < numCoins; i++) {
+            var reward_obj = Crafty.e("Reward")
                     .attr({
                 x: (Math.random() * MAP_WIDTH)    // Random Box location on map
                         , y: 300
@@ -530,11 +703,11 @@ Crafty.c("Level", {
                         , h: 50
             }).css({"background-color": 'orange'});
 
-            // Add new box object to object array
-            this._Objects.push(new_object);
-            this._Objects.push(reward_obj);
+            // Add new box object and reward to object array
+            this._CoinObjects.push(reward_obj);
         }
-        //this.adjustObjects(); temp disabled. will ensure proper obstaclel placement
+        return this;
+        //this.adjustBlocks(); // will ensure proper obstaclel placement
     },
     /**
      * Generate the enemies that are chasing Ron
@@ -542,6 +715,11 @@ Crafty.c("Level", {
      */
     generateEnemies: function() {
         // TODO: generate the enemies that chase PC
+<<<<<<< HEAD
     }
 >>>>>>> nightly
 });
+=======
+    },
+});
+>>>>>>> nightly

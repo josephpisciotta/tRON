@@ -23,6 +23,7 @@ Game = {
         // Start crafty and set a background color so that we can see it's working
         Crafty.init(Game.width(), Game.height());
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         Crafty.background("url(images/main-menu-bg.png)");
 =======
@@ -35,6 +36,11 @@ Game = {
 =======
 
 
+>>>>>>> nightly
+=======
+        Crafty.canvas.init();
+        Crafty.background('url(images/main-menu-bg.png)');
+        Crafty.audio.add("space", "media/music/through-space.mp3");
 >>>>>>> nightly
 
         Crafty.scene("Menu");
@@ -74,12 +80,12 @@ Crafty.scene("Game", function() {
     level1 = Crafty.e("Level").generateObjects(10);
 =======
     // Add Constant background
-    Crafty.background('url(images/city-bg.png)');
+    Crafty.background('url(images/city-bg2.png)');
 
 >>>>>>> nightly
 
     // Generate Level 1
-    _Level1 = Crafty.e("Level").generateObjects(10);
+    _Level1 = Crafty.e("Level").generateBlocks(20).generateCoins(100);
 
 <<<<<<< HEAD
     // UI
@@ -132,5 +138,10 @@ Crafty.scene("Game", function() {
         w: 200,
         h: 50}).css({color: "#fff"}).text("Score: 0");
 
+<<<<<<< HEAD
 >>>>>>> nightly
 });
+=======
+});
+
+>>>>>>> nightly
