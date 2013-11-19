@@ -353,11 +353,13 @@ Crafty.c("Level", {
          _Backround = Crafty.e("Background");
        
         
-        // progress bar
+ /*
+       // progress bar
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
                 .progressBar(100, false, "blue", "green")
                 .updateBarProgress(30);
+*/
 
         // place PC in game
         _Player = Crafty.e("Player")
