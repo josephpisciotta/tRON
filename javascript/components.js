@@ -236,9 +236,9 @@ Crafty.c("Block", {
         this.onHit("Player", function() {
             var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
-            	var ob = Crafty(others[i]);
-				if(others[i])
-                	Crafty(others[i]).stopMovement();
+                var ob = Crafty(others[i]);
+                if (others[i])
+                    Crafty(others[i]).stopMovement();
             }
         });
     }
@@ -249,21 +249,21 @@ Crafty.c("Block", {
  * All things that slow him down when hit or kill him will be an enemy
  */
 Crafty.c("Enemy", {
-	init:function(){
-		this.requires("2D, DOM, Solid, Other, Gravity");
-		this.gravity("Ground")
-		    .gravityConst(GRAVITY)
-		    .attr({x: 50, y: 200, w:20, h:40})
-		    .css({"background-color":"red"});
-		this.bind("EnterFrame", function(){
-			this.x -= GAME_SPEED;
-		})
+    init: function() {
+        this.requires("2D, DOM, Solid, Other, Gravity");
+        this.gravity("Ground")
+                .gravityConst(GRAVITY)
+                .attr({x: 50, y: 200, w: 20, h: 40})
+                .css({"background-color": "red"});
+        this.bind("EnterFrame", function() {
+            this.x -= GAME_SPEED;
+        })
 
-	}
+    }
 });
 
 Crafty.c("Touchable", {
-    init: function(){
+    init: function() {
         this.requires("Other");
     }
 });
@@ -348,13 +348,22 @@ Crafty.c("Level", {
      * @public
      */
     init: function() {
-        
+
+        Crafty.audio.play("space");
+
         // background
+<<<<<<< HEAD
          _Backround = Crafty.e("Background");
        
         
  /*
        // progress bar
+=======
+        _Backround = Crafty.e("Background");
+
+
+        // progress bar
+>>>>>>> 207a26be1bd9247134e47644e7f23710b2a9fe49
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
                 .progressBar(100, false, "blue", "green")
@@ -403,7 +412,7 @@ Crafty.c("Level", {
         // Creates Player Trail
         _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
             x: _Player.x
-                    , y: _Player.y + _Player.h - 30, z:100
+                    , y: _Player.y + _Player.h - 30, z: 100
         })
                 .bind("EnterFrame", function() {
             // changes trail's coords to match the PC everytime the game loop is called.
@@ -412,51 +421,49 @@ Crafty.c("Level", {
             this.z = 100;
         });
 
-		enemy = Crafty.e("Enemy");
+        enemy = Crafty.e("Enemy");
         // Place ground in Level  
         ground = Crafty.e("Ground");
     },
-    
     /**
      * Generates the blocks for the player to dodge
      * @public
      * @param {int} numEnemies - number of enemies to add to the world
      */
     generateBlocks: function(numEnemies) {
-		// current Block X pos
-		var currentBX = 0;
-		
-		// grid block size 
-		var segmentSize = MAP_WIDTH/numEnemies;
+        // current Block X pos
+        var currentBX = 0;
+
+        // grid block size 
+        var segmentSize = MAP_WIDTH / numEnemies;
         for (var i = 0; i < numEnemies; i++) {
 
-			var block_width = 100 + Math.floor((Math.random() * 100));
-			
-			var offset_width = Math.floor(Math.random() * (segmentSize - block_width));
-			
-			
-			var block_x = currentBX + offset_width + block_width;
-			
+            var block_width = 100 + Math.floor((Math.random() * 100));
+
+            var offset_width = Math.floor(Math.random() * (segmentSize - block_width));
+
+
+            var block_x = currentBX + offset_width + block_width;
+
 
             var block_object = Crafty.e("Block")
                     .attr({
-						x: block_x     // Random Box location on map
+                x: block_x     // Random Box location on map
                         , y: 400
                         , w: block_width  // Random box size between 100-200
                         , h: 50
             })
-            .css({"background-color": 'rgb(104, 184, 208)'});
-            
+                    .css({"background-color": 'rgb(104, 184, 208)'});
+
             // set pastX
             currentBX += segmentSize;
             this._BlockObjects.push(block_object);
 
-		}
-		return this;
-	},
-	
-	generateCoins: function(numCoins){
-            // rewards
+        }
+        return this;
+    },
+    generateCoins: function(numCoins) {
+        // rewards
         for (var i = 0; i < numCoins; i++) {
             var reward_obj = Crafty.e("Reward")
                     .attr({
@@ -479,5 +486,4 @@ Crafty.c("Level", {
     generateEnemies: function() {
         // TODO: generate the enemies that chase PC
     },
-    
 });
