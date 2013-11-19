@@ -17,3 +17,9 @@ var GENERAL_IMAGE_MAP_URI = "";
 
 // Location of 1 Saved Game
 var SAVED_GAME = null;
+
+
+// Global Variables
+var _ScoreEntity = null;
+var _PausePlayButton = null;
+var _Level1 = null;
