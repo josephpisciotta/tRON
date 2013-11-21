@@ -52,6 +52,20 @@ Crafty.c('Score', {
      * @property {int} _pointMultiplier 
      */
     _pointMultiplier: 1,
+    /** 
+     * init the variables and add the game counter stuff
+     */
+    init: function(){
+	    
+    },
+    
+    incrementQuantum: function(){
+	    
+    },
+    
+    resetQuantum: function(){
+	    
+    },
     /**
      * Sets our point multiplier
      * @public
@@ -288,8 +302,19 @@ Crafty.c("Enemy", {
         .image("images/1enemy.png","no-repeat");
 
     },
+    
+    /**
+     * THIS IS A BAD NAME IN THIS SCENRIO BECAUSE IT DOES NOT STOP THE MOVEMENT
+     * IT is called this to override 'other' stopMovement
+     */
     stopMovement: function(){
-	    this.x += GAME_SPEED + 3 ;
+    	if(this.x < 0){
+	    	this.x += GAME_SPEED + (GAME_SPEED-1) ;
+    	}
+    	else{
+	    	this.x += GAME_SPEED + 3 ;
+	    }
+	    
         return this;
     }
 });

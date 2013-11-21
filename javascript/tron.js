@@ -73,3 +73,7 @@ Crafty.scene("Game", function() {
 
 });
 
+function incrementTime(){
+	_Time++;
+}
+
