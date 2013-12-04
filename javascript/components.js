@@ -3,17 +3,6 @@ Crafty.c("Button", {
 });
 
 
-Crafty.scene("FinishScene", function(){
-	    // Add Constant background
-    Crafty.background('url(images/city-bg2.png)');
-    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
-    _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
-        x: Crafty.viewport.width - 120,
-        y: 25,
-        w: 200,
-        h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();});
-});
-
 // Finish line
 Crafty.c("Finish", {
 	init: function(){
