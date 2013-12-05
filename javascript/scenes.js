@@ -1,11 +1,18 @@
 Crafty.scene("Menu", function() {
 	Crafty.background('url(images/main-menu-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
+	var buttonImage = Crafty.e("2D, DOM, Color, Mouse, Image") 
 			.image("images/playUp.png")
 			.attr({w: 50, h: 50, x: 320, y: 300})
             //.attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
-            .bind("Click", function() {
+            .bind("MouseOver", function(e) {
+				buttonImage.image("images/playDown.png")
+			})
+			.bind("MouseOut", function(e) {
+				this.image("images/playUp.png")
+			})
+			.bind("Click", function() {
 				Crafty.scene("Game");
 			});
 	Crafty.e("2D, DOM, Color, Mouse, Image")
