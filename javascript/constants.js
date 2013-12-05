@@ -1,4 +1,4 @@
-var _CurrentLevel = 0;
+var _CurrentLevel = 1;
 
 
 // General Game Variables such as speed, gravity, difficulty
