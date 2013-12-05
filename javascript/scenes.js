@@ -6,37 +6,88 @@ Crafty.scene("Menu", function() {
             //.attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-				//Crafty.scene("Game");
+				Crafty.scene("Game");
 			});
-	Crafty.e("2D, DOM, Color, Mouse, Image")      
+	Crafty.e("2D, DOM, Color, Mouse, Image")
+	var imageMask = Crafty.e("2D, DOM, Color, Mouse, Image")      
 			.image("images/instruction.png")
 			.attr({w: 200, h: 50, x: 200, y: 400})
             .css({"cursor": "pointer"})
-            .bind("Click", function() {
-				//Crafty.scene("InstructionScene");
+            .bind("MouseOver", function(e) {
+				imageMask.image("images/instruction2.png")
+			})
+			.bind("MouseOut", function(e) {
+				this.image("images/instruction.png")
+			})
+			.bind("Click", function() {
+				Crafty.scene("InstructionScene")
 			});
-	Crafty.e("2D, DOM, Color, Mouse, Image")      
+	Crafty.e("2D, DOM, Color, Mouse, Image") 
+	var imageMask2 = Crafty.e("2D, DOM, Color, Mouse, Image")      
 			.image("images/about.png")
 			.attr({w: 200, h: 50, x: 370, y: 400})
             .css({"cursor": "pointer"})
-            .bind("Click", function() {
-				//Crafty.scene("AbourScene");
+            .bind("MouseOver", function(e) {
+				imageMask2.image("images/about2.png")
+			})
+			.bind("MouseOut", function(e) {
+				this.image("images/about.png")
+			})
+			.bind("Click", function() {
+				Crafty.scene("AboutScene")
 			});
-	Crafty.e("2D, DOM, Color, Mouse, Image")      
+	Crafty.e("2D, DOM, Color, Mouse, Image") 
+	var imageMask3 = Crafty.e("2D, DOM, Color, Mouse, Image")     
 			.image("images/highscores.png")
 			.attr({w: 200, h: 50, x: 480, y: 400})
             .css({"cursor": "pointer"})
             .bind("MouseOver", function(e) {
-				this.image("images/highscores2.png");
+				imageMask3.image("images/highscores2.png")
 			})
-			this.bind("MouseOut", function(e) {
-				this.image("images/highscores.png");
-			});
-			/*this.bind("Click", function() {
-				//Crafty.scene("HighscoreScene");
-			});*/
-				
+			.bind("MouseOut", function(e) {
+				this.image("images/highscores.png")
+			})
+			.bind("Click", function() {
+				Crafty.scene("HighscoreScene")
+			});			
 });
+
+Crafty.scene("InstructionScene", function() {
+	Crafty.background('url(images/instructions.png)');
+    Crafty.e("2D, DOM, Color, Mouse, Image")
+			//.image("images/playUp.png")
+			//.attr({w: 50, h: 50, x: 320, y: 300})
+            //.attr({w: 110, h: 50, x: 342, y: 310})
+            //.css({"cursor": "pointer"})
+            //.bind("Click", function() {
+			//	Crafty.scene("Game");
+			//});
+});
+
+Crafty.scene("AboutScene", function() {
+	Crafty.background('url(images/about.png)');
+    Crafty.e("2D, DOM, Color, Mouse, Image")
+			//.image("images/playUp.png")
+			//.attr({w: 50, h: 50, x: 320, y: 300})
+            //.attr({w: 110, h: 50, x: 342, y: 310})
+            //.css({"cursor": "pointer"})
+            //.bind("Click", function() {
+			//	Crafty.scene("Game");
+			//});
+});
+
+Crafty.scene("HighscoreScene", function() {
+	Crafty.background('url(images/highscore.png)');
+    Crafty.e("2D, DOM, Color, Mouse, Image")
+			//.image("images/playUp.png")
+			//.attr({w: 50, h: 50, x: 320, y: 300})
+            //.attr({w: 110, h: 50, x: 342, y: 310})
+            //.css({"cursor": "pointer"})
+            //.bind("Click", function() {
+			//	Crafty.scene("Game");
+			//});
+});
+
 
 Crafty.scene("Game", function() {
 
@@ -100,9 +151,10 @@ Crafty.scene("DeathScene", function(){
             .css({"cursor": "pointer"})
             .bind("Click", function() {
 				Crafty.scene("Menu");
-			});
-    
+			}); 
 });
+
+
 
 function levelVarGenerator(level){
 	return [25, 100, 10];
