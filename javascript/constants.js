@@ -32,3 +32,4 @@ var _PlayerTrail = null;
 var _TimeQuantum = 20000;
 var _Time = 0;
 var _Background = null;
+var _CycleCount = 0;

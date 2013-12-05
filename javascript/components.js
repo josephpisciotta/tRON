@@ -37,7 +37,7 @@
  * Button Component
  */
 Crafty.c("Button", {
-    // TODO: Develop this
+	// TODO: Develop this
 });
 
 /**
@@ -101,45 +101,26 @@ Crafty.c("Block", {
 });
 
 /**
- * flamingEnemy
- */
-Crafty.c("FlamingEnemy", {
-    init: function() {
-        this.requires("2D, DOM, Collision, Touchable");
-        this.attr({
-            y: 450
-                    , w: 200  // Random box size between 100-200
-                    , h: 10
-        })
-                .css({"background-color": 'red'});
-
-        this.onHit("Player", function() {
-            Crafty.scene("DeathScene");
-        });
-    }
-});
-
-/**
  * Enemy
  * All things that slow him down when hit or kill him will be an enemy
  */
 Crafty.c("Enemy", {
     init: function() {
-
+    
         this.requires("2D, DOM, Solid, Gravity, Image, Collision");
-
+        
         this.gravity("Ground")
-                .gravityConst(GRAVITY)
-                .attr({x: 66, y: 66, w: 20, h: 40})
-                .css({"background-color": "red", "width": "66px", "overflow": "hidden"});
-
-        this.bind("EnterFrame", function() {
-            this.x += GAME_SPEED - 3;
-        })
-                .image("images/1enemy.png", "no-repeat");
-
+        	.gravityConst(GRAVITY)
+            .attr({x: 66, y: 66, w: 20, h: 40})
+            .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
+            
+        this.bind("EnterFrame", function(){
+	        	this.x += GAME_SPEED - 3;
+			})
+        	.image("images/1enemy.png","no-repeat");
+        	
         this.onHit("Player", function() {
-            var others = Crafty("Other");
+        	var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
                 var ob = Crafty(others[i]);
                 if (others[i])
@@ -150,18 +131,19 @@ Crafty.c("Enemy", {
         });
 
     },
+    
     /**
      * THIS IS A BAD NAME IN THIS SCENRIO BECAUSE IT DOES NOT STOP THE MOVEMENT
      * IT is called this to override 'other' stopMovement
      */
-    stopMovement: function() {
-        if (this.x < 0) {
-            this.x += GAME_SPEED + (GAME_SPEED - 1);
-        }
-        else {
-            this.x += GAME_SPEED + 3;
-        }
-
+    stopMovement: function(){
+    	if(this.x < 0){
+	    	this.x += GAME_SPEED + (GAME_SPEED-1) ;
+    	}
+    	else{
+	    	this.x += GAME_SPEED + 3 ;
+	    }
+	    
         return this;
     }
 });
@@ -170,23 +152,50 @@ Crafty.c("Enemy", {
  * Finish line
  **/
 Crafty.c("Finish", {
-    init: function() {
-        this.requires("2D, DOM, Collision, Touchable");
+	init: function(){
+		this.requires("2D, DOM, Collision, Touchable");
         this.attr({
-            w: 40  // Random box size between 100-200
-                    , h: 5000
+                w: 40  // Random box size between 100-200
+              , h: 5000
         })
-                .css({"background-color": 'none'})
-                .onHit("Player", function() {
-            Crafty.scene("FinishScene");
-        });
-    }
+        	.css({"background-color": 'none'})
+			.onHit("Player", function(){
+				Crafty.scene("FinishScene");
+			});
+	}
 });
+
+/**
+ * flamingEnemy
+ */
+Crafty.c("FlamingEnemy", {
+    init: function() {
+        this.requires("2D, DOM, Collision, Other");
+        this.attr({
+            y: 450
+                    , w: 200  // Random box size between 100-200
+                    , h: 10
+        })
+                .css({"background-color": 'red'});
+
+        this.onHit("Player", function() {
+        	var others = Crafty("Other");
+            for (var i = 0; i < others.length; i++) {
+                var ob = Crafty(others[i]);
+                if (others[i])
+                    Crafty(others[i]).stopMovement();
+            }
+            Crafty.scene("DeathScene");
+
+        });
+   }
+});
+
 
 /**
  * Score Component
  */
-
+ 
 Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
 Crafty.c('Score', {
@@ -208,14 +217,21 @@ Crafty.c('Score', {
     /** 
      * init the variables and add the game counter stuff
      */
-    init: function() {
-
+    init: function(){
+	    this.bind('EnterFrame', function(){
+		    this.incrementQuantum();
+	    });
     },
-    incrementQuantum: function() {
-
+    
+    incrementQuantum: function(){
+	    _CycleCount++;
+	    if (_CycleCount >= _TimeQuantum*1000){
+		    _CycleCount = 0;
+	    }
     },
-    resetQuantum: function() {
-
+    
+    resetQuantum: function(){
+	    _CycleCount = 0;
     },
     /**
      * Sets our point multiplier
@@ -501,10 +517,10 @@ Crafty.c("Level", {
         Crafty.audio.play("space");
 
         // background
-        _Backround = Crafty.e("Background");
-
-
-
+         _Backround = Crafty.e("Background");
+       
+        
+ 
 
         // progress bar
         _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
@@ -552,7 +568,8 @@ Crafty.c("Level", {
         };
 
         // Creates Player Trail
-        _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
+        /*
+_PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
             x: _Player.x
                     , y: _Player.y + _Player.h - 30, z: 100
         })
@@ -562,16 +579,17 @@ Crafty.c("Level", {
             this.y = _Player.y + _Player.h - 30;
             this.z = 100;
         });
+*/
 
         enemy = Crafty.e("Other, Enemy");
-
+        
         // Place ground in Level  
         ground = Crafty.e("Ground");
-
+        
         // Place Finish line
         finishLine = Crafty.e("Finish")
-                .attr({x: MAP_WIDTH - 200, y: 0})
-                .css({"background-color": "none"});
+        				.attr({x: MAP_WIDTH - 200, y:0})
+        				.css({"background-color":"none"});
     },
     /**
      * Generates the blocks for the player to dodge
@@ -583,7 +601,7 @@ Crafty.c("Level", {
 
         // grid block size 
         var segmentSize = (MAP_WIDTH - 500) / (numBlocks);
-
+        
         // current Block X pos
         var currentBX = segmentSize;
 
@@ -614,32 +632,32 @@ Crafty.c("Level", {
         return this;
     },
     generateCoins: function(numCoins) {
-
-        // grid block size 
+    
+    	// grid block size 
         var segmentSize = (MAP_WIDTH - 500) / (numCoins);
-
+        
         // current Block X pos
         var currentBX = segmentSize;
-
+    
         // rewards
         for (var i = 0; i < numCoins; i++) {
-            var coin_width = 50;
+        	var coin_width = 50;
 
             var offset_width = 50 + Math.floor(Math.random() * (segmentSize - coin_width));
 
 
             var coin_x = currentBX + offset_width + coin_width;
-
+        
             var reward_obj = Crafty.e("Reward")
                     .attr({
-                x: coin_x    // Random Box location on map
+						x: coin_x    // Random Box location on map
                         , y: 300
                         , w: coin_width
                         , h: 50
-            })
-                    .css({"background-color": 'orange'});
-
-            currentBX += segmentSize;
+				})
+            	.css({"background-color": 'orange'});
+			
+			currentBX += segmentSize;
             // Add new box object and reward to object array
             this._CoinObjects.push(reward_obj);
         }
@@ -651,8 +669,8 @@ Crafty.c("Level", {
      * @public
      */
     generateEnemies: function(enemies) {
-        // TODO: generate the enemies that chase PC
-        // grid block size 
+         // TODO: generate the enemies that chase PC
+       // grid block size 
         var enemiesSize = (MAP_WIDTH - 500) / (enemies);
 
         var currentEnemy = enemiesSize;
@@ -670,9 +688,8 @@ Crafty.c("Level", {
             currentEnemy += enemiesSize;
 
             this._EnemyObjects.push(enemy);
-
         }
 
         return this;
-    }
+     }
 });
