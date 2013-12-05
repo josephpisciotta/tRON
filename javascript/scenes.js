@@ -17,7 +17,7 @@ Crafty.scene("Game", function() {
 	var lParams = levelVarGenerator(_CurrentLevel);
 	
     // Generate Level 1
-    _Level = Crafty.e("Level").generateBlocks(lParams[0]).generateCoins(lParams[1]);
+    _Level = Crafty.e("Level").generateBlocks(lParams[0]).generateCoins(lParams[1]).generateEnemies(lParams[0]);
 
 
     // UI - pause button. will be modifying in the future
