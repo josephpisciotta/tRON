@@ -1,4 +1,5 @@
 Crafty.scene("Menu", function() {
+	Crafty.background('url(images/main-menu-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse")
             .attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
@@ -63,5 +64,5 @@ Crafty.scene("DeathScene", function(){
 });
 
 function levelVarGenerator(level){
-	return [20+((level+1)*1.5), 100/(1.5)];
+	return [20+((level+1)*1.5), 100/(1.5*level)];
 }
