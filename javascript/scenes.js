@@ -1,12 +1,41 @@
 Crafty.scene("Menu", function() {
 	Crafty.background('url(images/main-menu-bg.png)');
-    Crafty.e("2D, DOM, Color, Mouse")
-            .attr({w: 110, h: 50, x: 342, y: 310})
+    Crafty.e("2D, DOM, Color, Mouse, Image")
+			.image("images/playUp.png")
+			.attr({w: 50, h: 50, x: 320, y: 300})
+            //.attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
             .bind("Click", function() {
-				Crafty.scene("Game");
+				//Crafty.scene("Game");
 			});
-
+	Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/instruction.png")
+			.attr({w: 200, h: 50, x: 200, y: 400})
+            .css({"cursor": "pointer"})
+            .bind("Click", function() {
+				//Crafty.scene("InstructionScene");
+			});
+	Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/about.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+            .bind("Click", function() {
+				//Crafty.scene("AbourScene");
+			});
+	Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/highscores.png")
+			.attr({w: 200, h: 50, x: 480, y: 400})
+            .css({"cursor": "pointer"})
+            .bind("MouseOver", function(e) {
+				this.image("images/highscores2.png");
+			})
+			this.bind("MouseOut", function(e) {
+				this.image("images/highscores.png");
+			});
+			/*this.bind("Click", function() {
+				//Crafty.scene("HighscoreScene");
+			});*/
+				
 });
 
 Crafty.scene("Game", function() {
@@ -51,6 +80,8 @@ Crafty.scene("Game", function() {
 
 });
 
+				
+
 Crafty.scene("FinishScene", function(){
 	    // Add Constant background
     Crafty.background('url(images/city-bg2.png)');
@@ -63,10 +94,13 @@ Crafty.scene("FinishScene", function(){
 });
 
 Crafty.scene("DeathScene", function(){
-	    // Add Constant background
-    Crafty.background('url(images/city-bg2.png)');
-    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 })
-    	.text("You Lost. sucks. ").css({"font-size": "40px", "color":"white"});
+	   Crafty.background('url(images/instructions.png)');
+	   Crafty.e("2D, DOM, Color, Mouse")
+	   		.attr({w: 110, h: 50, x: 342, y: 300})
+            .css({"cursor": "pointer"})
+            .bind("Click", function() {
+				Crafty.scene("Menu");
+			});
     
 });
 
