@@ -12,10 +12,12 @@ Crafty.scene("Game", function() {
 
     // Add Constant background
     Crafty.background('url(images/city-bg2.png)');
-
-
+	
+	
+	var lParams = levelVarGenerator(_CurrentLevel);
+	
     // Generate Level 1
-    _Level1 = Crafty.e("Level").generateBlocks(20).generateCoins(100);
+    _Level = Crafty.e("Level").generateBlocks(lParams[0]).generateCoins(lParams[1]);
 
 
     // UI - pause button. will be modifying in the future
@@ -51,3 +53,15 @@ Crafty.scene("FinishScene", function(){
         w: 200,
         h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();});
 });
+
+Crafty.scene("DeathScene", function(){
+	    // Add Constant background
+    Crafty.background('url(images/city-bg2.png)');
+    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 })
+    	.text("You Lost. sucks. ").css({"font-size": "40px", "color":"white"});
+    
+});
+
+function levelVarGenerator(level){
+	return [20+((level+1)*1.5), 100/(1.5)];
+}

@@ -24,7 +24,7 @@ Game = {
         Crafty.init(Game.width(), Game.height());
         Crafty.canvas.init();
         Crafty.background('url(images/main-menu-bg.png)');
-        Crafty.audio.add("space", "media/music/through-space.mp3");
+        // Crafty.audio.add("space", "media/music/through-space.mp3");
 
         Crafty.scene("Menu");
     }

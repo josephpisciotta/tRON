@@ -1,9 +1,156 @@
-// UI Components
+// *** UI/HUD COMPONENTS
+// Button
+// Background
+
+// *** SERVICE PROVIDER COMPONENTS
+// Other
+// Touchable
+
+// *** GAME COMPONENTS
+// Block
+// Reward
+// Score
+// Player
+// Enemy
+// Ground 
+// Finish
+
+
+// *** LEVEL CREATOR COMPONENTS
+// Level
+
+
+
+
+
+
+
+
+
+
+
+/*********
+ ****** UI/HUD COMPONENTS
+ *********/
+
+/**
+ * Button Component
+ */
 Crafty.c("Button", {
+	// TODO: Develop this
+});
+
+/**
+ * Background component
+ */
+Crafty.c("Background", {
+    /**
+     * @private
+     * @property {int} _width
+     */
+    _width: 1500,
+    /**
+     * @private
+     * @property {int} _height
+     */
+    _height: 500,
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
+        this.requires("2D, Image, Canvas, Other");
+        this.image("images/cityscape2.png", "repeat-x");
+        this.attr({x: 0, y: 400, w: MAP_WIDTH, h: 500});
+    }
 });
 
 
-// Finish line
+
+
+
+
+
+
+
+/*********
+ ****** GAME COMPONENTS
+ *********/
+
+/**
+ * Block platform component
+ */
+Crafty.c("Block", {
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
+        this.requires("2D, DOM, Touchable, Collision");
+
+        // When a block colledes with a Player, stop movement of all "Other" entities.
+        this.onHit("Player", function() {
+            var others = Crafty("Other");
+            for (var i = 0; i < others.length; i++) {
+                var ob = Crafty(others[i]);
+                if (others[i])
+                    Crafty(others[i]).stopMovement();
+            }
+        });
+    }
+});
+
+/**
+ * Enemy
+ * All things that slow him down when hit or kill him will be an enemy
+ */
+Crafty.c("Enemy", {
+    init: function() {
+    
+        this.requires("2D, DOM, Solid, Gravity, Image, Collision");
+        
+        this.gravity("Ground")
+        	.gravityConst(GRAVITY)
+            .attr({x: 66, y: 66, w: 20, h: 40})
+            .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
+            
+        this.bind("EnterFrame", function(){
+	        	this.x += GAME_SPEED - 3;
+			})
+        	.image("images/1enemy.png","no-repeat");
+        	
+        this.onHit("Player", function() {
+        	var others = Crafty("Other");
+            for (var i = 0; i < others.length; i++) {
+                var ob = Crafty(others[i]);
+                if (others[i])
+                    Crafty(others[i]).stopMovement();
+            }
+            Crafty.scene("DeathScene");
+
+        });
+
+    },
+    
+    /**
+     * THIS IS A BAD NAME IN THIS SCENRIO BECAUSE IT DOES NOT STOP THE MOVEMENT
+     * IT is called this to override 'other' stopMovement
+     */
+    stopMovement: function(){
+    	if(this.x < 0){
+	    	this.x += GAME_SPEED + (GAME_SPEED-1) ;
+    	}
+    	else{
+	    	this.x += GAME_SPEED + 3 ;
+	    }
+	    
+        return this;
+    }
+});
+
+/**
+ * Finish line
+ **/
 Crafty.c("Finish", {
 	init: function(){
 		this.requires("2D, DOM, Collision, Touchable");
@@ -18,13 +165,12 @@ Crafty.c("Finish", {
 	}
 });
 
-
-// Player
-Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
-
 /**
  * Score Component
  */
+ 
+Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
+
 Crafty.c('Score', {
     /**
      * @private
@@ -226,119 +372,6 @@ Crafty.c("Player", {
     }
 });
 
-
-/**
- * All other components that exist in the planet of this game. 
- */
-Crafty.c("Other", {
-    /**
-     * Constructor
-     * @public
-     */
-    init: function() {
-        this.bind("EnterFrame", function() {
-            this.x -= GAME_SPEED;
-        });
-    },
-    /**
-     * Stops other components from moving
-     * @public
-     * @returns {Other} other component
-     */
-    stopMovement: function() {
-        this.x += GAME_SPEED;
-        return this;
-    }
-});
-
-/**
- * Block platform component
- */
-Crafty.c("Block", {
-    /**
-     * Constructor
-     * @public
-     */
-    init: function() {
-        this.requires("2D, DOM, Touchable, Collision");
-
-        // When a block colledes with a Player, stop movement of all "Other" entities.
-        this.onHit("Player", function() {
-            var others = Crafty("Other");
-            for (var i = 0; i < others.length; i++) {
-                var ob = Crafty(others[i]);
-                if (others[i])
-                    Crafty(others[i]).stopMovement();
-            }
-        });
-    }
-});
-
-/**
- * Enemy
- * All things that slow him down when hit or kill him will be an enemy
- */
-Crafty.c("Enemy", {
-    init: function() {
-        this.requires("2D, DOM, Solid, Gravity, Image");
-        this.gravity("Ground")
-                .gravityConst(GRAVITY)
-                .attr({x: 66, y: 66, w: 20, h: 40})
-                .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
-        this.bind("EnterFrame", function(){
-	        this.x += GAME_SPEED - 3;
-        })
-        .image("images/1enemy.png","no-repeat");
-
-    },
-    
-    /**
-     * THIS IS A BAD NAME IN THIS SCENRIO BECAUSE IT DOES NOT STOP THE MOVEMENT
-     * IT is called this to override 'other' stopMovement
-     */
-    stopMovement: function(){
-    	if(this.x < 0){
-	    	this.x += GAME_SPEED + (GAME_SPEED-1) ;
-    	}
-    	else{
-	    	this.x += GAME_SPEED + 3 ;
-	    }
-	    
-        return this;
-    }
-});
-
-Crafty.c("Touchable", {
-    init: function() {
-        this.requires("Other");
-    }
-});
-
-/**
- * Background component
- */
-Crafty.c("Background", {
-    /**
-     * @private
-     * @property {int} _width
-     */
-    _width: 1500,
-    /**
-     * @private
-     * @property {int} _height
-     */
-    _height: 500,
-    /**
-     * Constructor
-     * @public
-     */
-    init: function() {
-        this.requires("2D, Image, Canvas, Other");
-        this.image("images/cityscape2.png", "repeat-x");
-        this.attr({x: 0, y: 400, w: MAP_WIDTH, h: 500});
-    }
-});
-
 /**
  * Ground Component
  */
@@ -377,6 +410,59 @@ Crafty.c("Ground", {
     }
 });
 
+
+
+
+
+
+
+
+/*********
+ ****** SERVICE COMPONENTS
+ *********/
+
+/**
+ * All other components that exist in the planet of this game. 
+ */
+Crafty.c("Other", {
+    /**
+     * Constructor
+     * @public
+     */
+    init: function() {
+        this.bind("EnterFrame", function() {
+            this.x -= GAME_SPEED;
+        });
+    },
+    /**
+     * Stops other components from moving
+     * @public
+     * @returns {Other} other component
+     */
+    stopMovement: function() {
+        this.x += GAME_SPEED;
+        return this;
+    }
+});
+
+/**
+ * Touchable service component
+ **/
+Crafty.c("Touchable", {
+    init: function() {
+        this.requires("Other");
+    }
+});
+
+
+
+
+
+
+
+/*********
+ ****** LEVEL CREEATOR COMPONENTS
+ *********/
 
 
 /**
@@ -466,20 +552,25 @@ Crafty.c("Level", {
         ground = Crafty.e("Ground");
         
         // Place Finish line
-        finishLine = Crafty.e("Finish").attr({x: MAP_WIDTH - 200, y:0}).css({"background-color":"none"});
+        finishLine = Crafty.e("Finish")
+        				.attr({x: MAP_WIDTH - 200, y:0})
+        				.css({"background-color":"none"});
     },
     /**
      * Generates the blocks for the player to dodge
      * @public
      * @param {int} numEnemies - number of enemies to add to the world
      */
-    generateBlocks: function(numEnemies) {
-        // current Block X pos
-        var currentBX = 0;
+    generateBlocks: function(numBlocks) {
+
 
         // grid block size 
-        var segmentSize = (MAP_WIDTH - 500) / numEnemies;
-        for (var i = 0; i < numEnemies; i++) {
+        var segmentSize = (MAP_WIDTH - 500) / (numBlocks);
+        
+        // current Block X pos
+        var currentBX = segmentSize;
+
+        for (var i = 0; i < numBlocks; i++) {
 
             var block_width = 100 + Math.floor((Math.random() * 100));
 
@@ -506,16 +597,32 @@ Crafty.c("Level", {
         return this;
     },
     generateCoins: function(numCoins) {
+    
+    	// grid block size 
+        var segmentSize = (MAP_WIDTH - 500) / (numCoins);
+        
+        // current Block X pos
+        var currentBX = segmentSize;
+    
         // rewards
         for (var i = 0; i < numCoins; i++) {
+        	var coin_width = 50;
+
+            var offset_width = 50 + Math.floor(Math.random() * (segmentSize - coin_width));
+
+
+            var coin_x = currentBX + offset_width + coin_width;
+        
             var reward_obj = Crafty.e("Reward")
                     .attr({
-                x: (Math.random() * MAP_WIDTH)    // Random Box location on map
+						x: coin_x    // Random Box location on map
                         , y: 300
-                        , w: 50
+                        , w: coin_width
                         , h: 50
-            }).css({"background-color": 'orange'});
-
+				})
+            	.css({"background-color": 'orange'});
+			
+			currentBX += segmentSize;
             // Add new box object and reward to object array
             this._CoinObjects.push(reward_obj);
         }
@@ -528,5 +635,5 @@ Crafty.c("Level", {
      */
     generateEnemies: function() {
         // TODO: generate the enemies that chase PC
-    },
+    }
 });
