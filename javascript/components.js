@@ -220,18 +220,38 @@ Crafty.c('Score', {
     init: function(){
 	    this.bind('EnterFrame', function(){
 		    this.incrementQuantum();
+		        _ProgressBar.updateBarProgress(_CycleCount);
+
 	    });
+    },
+    
+    incrementCoinsInARow: function(){
+	    this._coinsInARow++;
+	    if (_CycleCount >= _TimeQuantum){
+		    _CycleCount = 0;
+		    this._coinsInARow = 0;
+		    if(this._pointMultiplier>0)
+		    	this._pointMultiplier--;
+	    }
+	    else if(this._coinsInARow >= 4){
+		    this._pointMultiplier++;
+		    _CycleCount = 0;
+		    this._coinsInARow = 0;
+	    }
+	    return this;
     },
     
     incrementQuantum: function(){
 	    _CycleCount++;
-	    if (_CycleCount >= _TimeQuantum*1000){
+	    if (_CycleCount >= _TimeQuantum){
 		    _CycleCount = 0;
 	    }
+	    return this;
     },
     
     resetQuantum: function(){
 	    _CycleCount = 0;
+	    return this;
     },
     /**
      * Sets our point multiplier
@@ -309,7 +329,8 @@ Crafty.c("Reward", {
         // Increase player points on colission
         this.onHit("Player", function() {
             this.destroy();
-            Crafty('Score').incrementScore(this.getValue());
+            Crafty('Score').incrementScore(this.getValue())
+            		.incrementQuantum().incrementCoinsInARow();
         });
 
     },
@@ -522,11 +543,7 @@ Crafty.c("Level", {
         
  
 
-        // progress bar
-        _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
-                .attr({x: 200, y: 15, w: 100, h: 25, z: 100})
-                .progressBar(100, false, "blue", "green")
-                .updateBarProgress(30);
+        
 
         // place PC in game
         _Player = Crafty.e("Player")

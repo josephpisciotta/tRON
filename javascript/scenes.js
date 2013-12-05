@@ -41,6 +41,13 @@ Crafty.scene("Game", function() {
         y: 25,
         w: 200,
         h: 50}).css({color: "#fff"}).text("Score: 0");
+        
+        
+    // progress bar
+    _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
+                .attr({x: 20, y: 150, w: 25, h: 100, z: 100})
+                .progressBar(_TimeQuantum, true, "blue", "green");
+
 
 });
 
