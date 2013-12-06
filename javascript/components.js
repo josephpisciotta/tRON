@@ -523,7 +523,17 @@ Crafty.c("Touchable", {
 
 Crafty.c("PauseMenu", {
 	init:function(){
-		
+		this.requires("2D, DOM, Color");
+		var imageMask4 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 100, y: 100})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+											
+
+				Crafty.scene("Menu");
+
+			});
 	}
 });
 

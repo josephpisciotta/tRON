@@ -114,11 +114,11 @@ Crafty.scene("Game", function() {
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
         if (this.isPaused) {
-        	_PauseMenu.destroy();
+        	//_PauseMenu.destroy();
             Crafty.c();
         }
         else {
-        	_PauseMenu = Crafty.e("PauseMenu").attr({x:200,y:200});
+        	//_PauseMenu = Crafty.e("PauseMenu").attr({x:200,y:200, w:100, h:300});
             Crafty.pause();
         }
     });
@@ -137,7 +137,7 @@ Crafty.scene("Game", function() {
                 .progressBar(_TimeQuantum, true, "rgb(55,110,124)", "green");
     _CoinsInARowBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 35, y: 150, w: 25, h: 100, z: 100})
-                .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "green");
+                .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "blue");
 });
 
 				
@@ -160,6 +160,16 @@ Crafty.scene("FinishScene", function(){
 			_CurrentLevel++;
 			Crafty.scene("Game")
 		});
+	Crafty.e("Score, 2D, DOM, Text").attr({
+        x: (Crafty.viewport.width/2) - 50,
+        y: 300,
+        w: 200,
+        h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Next Level: " + (_CurrentLevel + 1));
+     Crafty.e("Score, 2D, DOM, Text").attr({
+        x: (Crafty.viewport.width/2) - 50,
+        y: 350,
+        w: 200,
+        h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Score: " + (_ScoreEntity.getScore()));
 });
 
 //death
@@ -172,7 +182,18 @@ Crafty.scene("DeathScene", function() {
 			.bind("Click", function() {
 				Crafty.scene("Menu")
 			});
+	Crafty.e("Score, 2D, DOM, Text").attr({
+        x: (Crafty.viewport.width/2) - 50,
+        y: 300,
+        w: 200,
+        h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Current Level: " + (_CurrentLevel));
+        Crafty.e("Score, 2D, DOM, Text").attr({
+        x: (Crafty.viewport.width/2) - 50,
+        y: 350,
+        w: 200,
+        h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Score: " + (_ScoreEntity.getScore()));
 });
+
 
 function levelVarGenerator(level){
 	return [10*level, 100/level, level*3];
