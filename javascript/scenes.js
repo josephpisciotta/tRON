@@ -1,11 +1,18 @@
 Crafty.scene("Menu", function() {
 	Crafty.background('url(images/main-menu-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
+	var buttonImage = Crafty.e("2D, DOM, Color, Mouse, Image") 
 			.image("images/playUp.png")
 			.attr({w: 50, h: 50, x: 320, y: 300})
             //.attr({w: 110, h: 50, x: 342, y: 310})
             .css({"cursor": "pointer"})
-            .bind("Click", function() {
+            .bind("MouseOver", function(e) {
+				buttonImage.image("images/playDown.png")
+			})
+			.bind("MouseOut", function(e) {
+				this.image("images/playUp.png")
+			})
+			.bind("Click", function() {
 				Crafty.scene("Game");
 			});
 	Crafty.e("2D, DOM, Color, Mouse, Image")
@@ -53,39 +60,39 @@ Crafty.scene("Menu", function() {
 });
 
 Crafty.scene("InstructionScene", function() {
-	Crafty.background('url(images/instructions.png)');
+	Crafty.background('url(images/instructions-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask2 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 Crafty.scene("AboutScene", function() {
-	Crafty.background('url(images/about.png)');
+	Crafty.background('url(images/about-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask3 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 Crafty.scene("HighscoreScene", function() {
-	Crafty.background('url(images/highscore.png)');
+	Crafty.background('url(images/highscores-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask4 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 
@@ -125,6 +132,7 @@ Crafty.scene("Game", function() {
         
     // progress bar
     _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
+<<<<<<< HEAD
                 .attr({x: 10, y: 150, w: 25, h: 100, z: 100})
                 .progressBar(_TimeQuantum, true, "rgb(55,110,124)", "green");
     _CoinsInARowBar = Crafty.e("2D, DOM, ProgressBar")
@@ -132,6 +140,10 @@ Crafty.scene("Game", function() {
                 .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "green");
 
 
+=======
+                .attr({x: 20, y: 150, w: 25, h: 100, z: 100})
+                .progressBar(_TimeQuantum, true, "blue", "green");
+>>>>>>> 4cf0c6d44388622e20e5d54eb3d7863b3cdbe7ce
 });
 
 				
