@@ -336,8 +336,8 @@ Crafty.c("Reward", {
     init: function() {
 
         // Load required things
-        this.requires("2D, DOM, Other, SpriteAnimation");
-        this.requires("Multiway, Collision");
+        this.requires("2D, DOM, Other, Image");
+        this.requires("Collision");
 
         // Increase player points on colission
         this.onHit("Player", function() {
@@ -676,7 +676,7 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
     
         // rewards
         for (var i = 0; i < numCoins; i++) {
-        	var coin_width = 50;
+        	var coin_width = 17;
 
             var offset_width = 50 + Math.floor(Math.random() * (segmentSize - coin_width));
 
@@ -686,11 +686,11 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
             var reward_obj = Crafty.e("Reward")
                     .attr({
 						x: coin_x    // Random Box location on map
-                        , y: 300
+                        , y: 330
                         , w: coin_width
-                        , h: 50
+                        , h: 17
 				})
-            	.css({"background-color": 'orange'});
+            	.image('images/coin.png');
 			
 			currentBX += segmentSize;
             // Add new box object and reward to object array

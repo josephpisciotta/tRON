@@ -174,5 +174,5 @@ Crafty.scene("DeathScene", function() {
 });
 
 function levelVarGenerator(level){
-	return [10, 100, 5];
+	return [10, 130, 5];
 }
