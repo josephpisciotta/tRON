@@ -37,7 +37,7 @@
  * Button Component
  */
 Crafty.c("Button", {
-	// TODO: Develop this
+    // TODO: Develop this
 });
 
 /**
@@ -106,21 +106,21 @@ Crafty.c("Block", {
  */
 Crafty.c("Enemy", {
     init: function() {
-    
+
         this.requires("2D, DOM, Solid, Gravity, Image, Collision");
-        
+
         this.gravity("Ground")
-        	.gravityConst(GRAVITY)
-            .attr({x: 66, y: 66, w: 20, h: 40})
-            .css({"background-color": "red", "width":"66px", "overflow":"hidden"});
-            
-        this.bind("EnterFrame", function(){
-	        	this.x += GAME_SPEED - 3;
-			})
-        	.image("images/1enemy.png","no-repeat");
-        	
+                .gravityConst(GRAVITY)
+                .attr({x: 66, y: 66, w: 20, h: 40})
+                .css({"background-color": "red", "width": "66px", "overflow": "hidden"});
+
+        this.bind("EnterFrame", function() {
+            this.x += GAME_SPEED - 3;
+        })
+                .image("images/1enemy.png", "no-repeat");
+
         this.onHit("Player", function() {
-        	var others = Crafty("Other");
+            var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
                 var ob = Crafty(others[i]);
                 if (others[i])
@@ -131,19 +131,18 @@ Crafty.c("Enemy", {
         });
 
     },
-    
     /**
      * THIS IS A BAD NAME IN THIS SCENRIO BECAUSE IT DOES NOT STOP THE MOVEMENT
      * IT is called this to override 'other' stopMovement
      */
-    stopMovement: function(){
-    	if(this.x < 0){
-	    	this.x += GAME_SPEED + (GAME_SPEED-1) ;
-    	}
-    	else{
-	    	this.x += GAME_SPEED + 3 ;
-	    }
-	    
+    stopMovement: function() {
+        if (this.x < 0) {
+            this.x += GAME_SPEED + (GAME_SPEED - 1);
+        }
+        else {
+            this.x += GAME_SPEED + 3;
+        }
+
         return this;
     }
 });
@@ -152,17 +151,17 @@ Crafty.c("Enemy", {
  * Finish line
  **/
 Crafty.c("Finish", {
-	init: function(){
-		this.requires("2D, DOM, Collision, Touchable");
+    init: function() {
+        this.requires("2D, DOM, Collision, Touchable");
         this.attr({
-                w: 40  // Random box size between 100-200
-              , h: 5000
+            w: 40  // Random box size between 100-200
+                    , h: 5000
         })
-        	.css({"background-color": 'none'})
-			.onHit("Player", function(){
-				Crafty.scene("FinishScene");
-			});
-	}
+                .css({"background-color": 'none'})
+                .onHit("Player", function() {
+            Crafty.scene("FinishScene");
+        });
+    }
 });
 
 /**
@@ -172,13 +171,13 @@ Crafty.c("FlamingEnemy", {
     init: function() {
         this.requires("2D, DOM, Collision, Other");
         this.attr({
-            y: 450                      
-            , h: 10
+            y: 450
+                    , h: 10
         })
                 .css({"background-color": 'red'});
 
         this.onHit("Player", function() {
-        	var others = Crafty("Other");
+            var others = Crafty("Other");
             for (var i = 0; i < others.length; i++) {
                 var ob = Crafty(others[i]);
                 if (others[i])
@@ -187,14 +186,14 @@ Crafty.c("FlamingEnemy", {
             Crafty.scene("DeathScene");
 
         });
-   }
+    }
 });
 
 
 /**
  * Score Component
  */
- 
+
 Crafty.sprite(66, "images/tRON.png", {player: [0, 0]});
 
 Crafty.c('Score', {
@@ -216,40 +215,37 @@ Crafty.c('Score', {
     /** 
      * init the variables and add the game counter stuff
      */
-    init: function(){
-	    this.bind('EnterFrame', function(){
-		    this.incrementQuantum();
-		    _ProgressBar.updateBarProgress(_CycleCount);
-		    _CoinsInARowBar.updateBarProgress(this._coinsInARow);
+    init: function() {
+        this.bind('EnterFrame', function() {
+            this.incrementQuantum();
+            _ProgressBar.updateBarProgress(_CycleCount);
+            _CoinsInARowBar.updateBarProgress(this._coinsInARow);
 
-	    });
+        });
     },
-    
-    incrementCoinsInARow: function(){
-	    this._coinsInARow++;
+    incrementCoinsInARow: function() {
+        this._coinsInARow++;
 
-	    if(this._coinsInARow >= _CoinsForBonus){
-		    this._pointMultiplier++;
-		    _CycleCount = 0;
-		    this._coinsInARow = 0;
-	    }
-	    return this;
+        if (this._coinsInARow >= _CoinsForBonus) {
+            this._pointMultiplier++;
+            _CycleCount = 0;
+            this._coinsInARow = 0;
+        }
+        return this;
     },
-    
-    incrementQuantum: function(){
-	    _CycleCount++;
-	    if (_CycleCount >= _TimeQuantum){
-		    _CycleCount = 0;
-		    this._coinsInARow = 0;
-		    if(this._pointMultiplier>1)
-		    	this._pointMultiplier--;
-	    }
-	    return this;
+    incrementQuantum: function() {
+        _CycleCount++;
+        if (_CycleCount >= _TimeQuantum) {
+            _CycleCount = 0;
+            this._coinsInARow = 0;
+            if (this._pointMultiplier > 1)
+                this._pointMultiplier--;
+        }
+        return this;
     },
-    
-    resetQuantum: function(){
-	    _CycleCount = 0;
-	    return this;
+    resetQuantum: function() {
+        _CycleCount = 0;
+        return this;
     },
     /**
      * Sets our point multiplier
@@ -295,11 +291,9 @@ Crafty.c('Score', {
     getScore: function() {
         return this._score;
     },
-    
     getPointsInARow: function() {
         return this._pointsInARow;
     },
-    
     getPointsMultiplier: function() {
         return this._pointsMultiplier;
     },
@@ -311,12 +305,11 @@ Crafty.c('Score', {
     displayScore: function() {
         _ScoreEntity.text("" + this.getScore());
     },
-    
     displayMultiplier: function() {
-	    _MultiplierDisplay.text("" + this.getPointsMultiplier());
+        _MultiplierDisplay.text("" + this.getPointsMultiplier());
     },
     displayPointsInARow: function() {
-	    _PointsInARowDisplay.text("" + this.getPointsInARow());
+        _PointsInARowDisplay.text("" + this.getPointsInARow());
     }
 });
 
@@ -338,12 +331,29 @@ Crafty.c("Reward", {
         // Load required things
         this.requires("2D, DOM, Other, Image");
         this.requires("Collision");
+        this.attr({
+            y: 330,
+            w: 17,
+            h: 17
+        });
+
+        this.css({"background-image": "url(images/coin.png)"});
 
         // Increase player points on colission
         this.onHit("Player", function() {
+
+            // play sound when hitting reward
+            Crafty.audio.add("reward", "media/sounds/reward.mp3");
+            Crafty.audio.play("reward");
+
+            // stop after half a second
+            setTimeout(function() {
+                Crafty.audio.stop("reward");
+            }, 500);
+
             this.destroy();
             Crafty('Score').incrementScore(this.getValue())
-            		.incrementQuantum().incrementCoinsInARow();
+                    .incrementQuantum().incrementCoinsInARow();
         });
 
     },
@@ -522,6 +532,7 @@ Crafty.c("Touchable", {
 
 
 Crafty.c("PauseMenu", {
+<<<<<<< HEAD
 	init:function(){
 		this.requires("2D, DOM, Color");
 		var imageMask4 = Crafty.e("2D, DOM, Color, Mouse, Image")      
@@ -535,6 +546,11 @@ Crafty.c("PauseMenu", {
 
 			});
 	}
+=======
+    init: function() {
+
+    }
+>>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
 });
 
 
@@ -566,12 +582,12 @@ Crafty.c("Level", {
         Crafty.audio.play("space");
 
         // background
-         _Backround = Crafty.e("Background");
-       
-        
- 
+        _Backround = Crafty.e("Background");
 
-        
+
+
+
+
 
         // place PC in game
         _Player = Crafty.e("Player")
@@ -614,27 +630,27 @@ Crafty.c("Level", {
 
         // Creates Player Trail
         /*
-_PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
-            x: _Player.x
-                    , y: _Player.y + _Player.h - 30, z: 100
-        })
-                .bind("EnterFrame", function() {
-            // changes trail's coords to match the PC everytime the game loop is called.
-            this.x = _Player.x;
-            this.y = _Player.y + _Player.h - 30;
-            this.z = 100;
-        });
-*/
+         _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
+         x: _Player.x
+         , y: _Player.y + _Player.h - 30, z: 100
+         })
+         .bind("EnterFrame", function() {
+         // changes trail's coords to match the PC everytime the game loop is called.
+         this.x = _Player.x;
+         this.y = _Player.y + _Player.h - 30;
+         this.z = 100;
+         });
+         */
 
         enemy = Crafty.e("Other, Enemy");
-        
+
         // Place ground in Level  
         ground = Crafty.e("Ground");
-        
+
         // Place Finish line
         finishLine = Crafty.e("Finish")
-        				.attr({x: MAP_WIDTH - 200, y:0})
-        				.css({"background-color":"none"});
+                .attr({x: MAP_WIDTH - 200, y: 0})
+                .css({"background-color": "none"});
     },
     /**
      * Generates the blocks for the player to dodge
@@ -646,7 +662,7 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
 
         // grid block size 
         var segmentSize = (MAP_WIDTH - 500) / (numBlocks);
-        
+
         // current Block X pos
         var currentBX = segmentSize;
 
@@ -677,32 +693,29 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
         return this;
     },
     generateCoins: function(numCoins) {
-    
-    	// grid block size 
+
+        // grid block size 
         var segmentSize = (MAP_WIDTH - 500) / (numCoins);
-        
+
         // current Block X pos
         var currentBX = segmentSize;
-    
+
         // rewards
         for (var i = 0; i < numCoins; i++) {
-        	var coin_width = 17;
+
+            var coin_width = 17;
 
             var offset_width = 50 + Math.floor(Math.random() * (segmentSize - coin_width));
 
 
             var coin_x = currentBX + offset_width + coin_width;
-        
+
             var reward_obj = Crafty.e("Reward")
                     .attr({
-						x: coin_x    // Random Box location on map
-                        , y: 330
-                        , w: coin_width
-                        , h: 17
-				})
-            	.image('images/coin.png');
-			
-			currentBX += segmentSize;
+                x: coin_x    // Random Box location on map
+            });
+
+            currentBX += segmentSize;
             // Add new box object and reward to object array
             this._CoinObjects.push(reward_obj);
         }
@@ -714,8 +727,8 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
      * @public
      */
     generateEnemies: function(enemies) {
-         // TODO: generate the enemies that chase PC
-       // grid block size 
+        // TODO: generate the enemies that chase PC
+        // grid block size 
         var enemiesSize = (MAP_WIDTH - 500) / (enemies);
 
         var currentEnemy = enemiesSize;
@@ -729,12 +742,12 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
 
             var enemy_x = currentEnemy + offset_width + enemy_width;
 
-            var enemy = Crafty.e("FlamingEnemy").attr({x: enemy_x, w:enemy_width});
+            var enemy = Crafty.e("FlamingEnemy").attr({x: enemy_x, w: enemy_width});
             currentEnemy += enemiesSize;
 
             this._EnemyObjects.push(enemy);
         }
 
         return this;
-     }
+    }
 });
