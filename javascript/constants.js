@@ -1,3 +1,6 @@
+var _CurrentLevel = 1;
+
+
 // General Game Variables such as speed, gravity, difficulty
 var GRAVITY = .5;
 var GAME_SPEED = 10;
@@ -22,10 +25,14 @@ var SAVED_GAME = null;
 // Global Variables
 var _ScoreEntity = null;
 var _PausePlayButton = null;
-var _Level1 = null;
+var _Level = null;
 var _ProgressBar = null;
 var _Player = null;
 var _PlayerTrail = null;
-var _TimeQuantum = 20000;
+var _TimeQuantum = 200;
 var _Time = 0;
 var _Background = null;
+var _CycleCount = 0;
+var _MultiplierLabel = null;
+var _CoinsInARowBar = null;
+var _CoinsForBonus = 6;
