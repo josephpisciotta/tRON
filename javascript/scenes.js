@@ -158,7 +158,7 @@ Crafty.scene("FinishScene", function(){
         .css({"cursor": "pointer"})
 		.bind("Click", function() {
 			_CurrentLevel++;
-			Crafty.scene("Menu")
+			Crafty.scene("Game")
 		});
 });
 
