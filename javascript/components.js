@@ -521,6 +521,11 @@ Crafty.c("Touchable", {
 });
 
 
+Crafty.c("PauseMenu", {
+	init:function(){
+		
+	}
+});
 
 
 

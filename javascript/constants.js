@@ -36,3 +36,4 @@ var _CycleCount = 0;
 var _MultiplierLabel = null;
 var _CoinsInARowBar = null;
 var _CoinsForBonus = 6;
+var _PauseMenu = null;

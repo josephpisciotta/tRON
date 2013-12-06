@@ -13,7 +13,7 @@ Crafty.scene("Menu", function() {
 				this.image("images/playUp.png")
 			})
 			.bind("Click", function() {
-				Crafty.scene("FinishScene");
+				Crafty.scene("Game");
 			});
 	Crafty.e("2D, DOM, Color, Mouse, Image")
 	var imageMask = Crafty.e("2D, DOM, Color, Mouse, Image")      
@@ -114,9 +114,11 @@ Crafty.scene("Game", function() {
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
         if (this.isPaused) {
+        	_PauseMenu.destroy();
             Crafty.c();
         }
         else {
+        	_PauseMenu = Crafty.e("PauseMenu").attr({x:200,y:200});
             Crafty.pause();
         }
     });
