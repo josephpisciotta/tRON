@@ -117,16 +117,19 @@ Crafty.scene("Game", function() {
 
     // score
     _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
-        x: Crafty.viewport.width - 120,
+        x: (Crafty.viewport.width/2),
         y: 25,
         w: 200,
-        h: 50}).css({color: "#fff"}).text("Score: 0");
+        h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("0");
         
         
     // progress bar
     _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
-                .attr({x: 20, y: 150, w: 25, h: 100, z: 100})
-                .progressBar(_TimeQuantum, true, "blue", "green");
+                .attr({x: 10, y: 150, w: 25, h: 100, z: 100})
+                .progressBar(_TimeQuantum, true, "rgb(55,110,124)", "green");
+    _CoinsInARowBar = Crafty.e("2D, DOM, ProgressBar")
+                .attr({x: 35, y: 150, w: 25, h: 100, z: 100})
+                .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "green");
 
 
 });
@@ -157,5 +160,5 @@ Crafty.scene("DeathScene", function(){
 
 
 function levelVarGenerator(level){
-	return [25, 100, 10];
+	return [10, 100, 5];
 }

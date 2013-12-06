@@ -172,9 +172,8 @@ Crafty.c("FlamingEnemy", {
     init: function() {
         this.requires("2D, DOM, Collision, Other");
         this.attr({
-            y: 450
-                    , w: 200  // Random box size between 100-200
-                    , h: 10
+            y: 450                      
+            , h: 10
         })
                 .css({"background-color": 'red'});
 
@@ -220,20 +219,16 @@ Crafty.c('Score', {
     init: function(){
 	    this.bind('EnterFrame', function(){
 		    this.incrementQuantum();
-		        _ProgressBar.updateBarProgress(_CycleCount);
+		    _ProgressBar.updateBarProgress(_CycleCount);
+		    _CoinsInARowBar.updateBarProgress(this._coinsInARow);
 
 	    });
     },
     
     incrementCoinsInARow: function(){
 	    this._coinsInARow++;
-	    if (_CycleCount >= _TimeQuantum){
-		    _CycleCount = 0;
-		    this._coinsInARow = 0;
-		    if(this._pointMultiplier>0)
-		    	this._pointMultiplier--;
-	    }
-	    else if(this._coinsInARow >= 4){
+
+	    if(this._coinsInARow >= _CoinsForBonus){
 		    this._pointMultiplier++;
 		    _CycleCount = 0;
 		    this._coinsInARow = 0;
@@ -245,6 +240,9 @@ Crafty.c('Score', {
 	    _CycleCount++;
 	    if (_CycleCount >= _TimeQuantum){
 		    _CycleCount = 0;
+		    this._coinsInARow = 0;
+		    if(this._pointMultiplier>1)
+		    	this._pointMultiplier--;
 	    }
 	    return this;
     },
@@ -297,13 +295,28 @@ Crafty.c('Score', {
     getScore: function() {
         return this._score;
     },
+    
+    getPointsInARow: function() {
+        return this._pointsInARow;
+    },
+    
+    getPointsMultiplier: function() {
+        return this._pointsMultiplier;
+    },
     /**
      * Displays current score
      * @public
      * @method displayScore
      */
     displayScore: function() {
-        _ScoreEntity.text("Score: " + this.getScore());
+        _ScoreEntity.text("" + this.getScore());
+    },
+    
+    displayMultiplier: function() {
+	    _MultiplierDisplay.text("" + this.getPointsMultiplier());
+    },
+    displayPointsInARow: function() {
+	    _PointsInARowDisplay.text("" + this.getPointsInARow());
     }
 });
 
@@ -694,14 +707,14 @@ _PlayerTrail = Crafty.e("2D,DOM,Particles").particles(options).attr({
 
         for (var i = 0; i < enemies; i++) {
 
-            var enemy_width = 100 + Math.floor((Math.random() * 100));
+            var enemy_width = 50 + Math.floor((Math.random() * 50));
 
             var offset_width = 50 + Math.floor(Math.random() * (enemiesSize - enemy_width));
 
 
             var enemy_x = currentEnemy + offset_width + enemy_width;
 
-            var enemy = Crafty.e("FlamingEnemy").attr({x: enemy_x});
+            var enemy = Crafty.e("FlamingEnemy").attr({x: enemy_x, w:enemy_width});
             currentEnemy += enemiesSize;
 
             this._EnemyObjects.push(enemy);
