@@ -329,8 +329,15 @@ Crafty.c("Reward", {
     init: function() {
 
         // Load required things
-        this.requires("2D, DOM, Other, SpriteAnimation");
-        this.requires("Multiway, Collision");
+        this.requires("2D, DOM, Other, Image");
+        this.requires("Collision");
+        this.attr({
+            y: 330,
+            w: 17,
+            h: 17
+        });
+
+        this.css({"background-image": "url(images/coin.png)"});
 
         // Increase player points on colission
         this.onHit("Player", function() {
@@ -679,7 +686,8 @@ Crafty.c("Level", {
 
         // rewards
         for (var i = 0; i < numCoins; i++) {
-            var coin_width = 50;
+
+            var coin_width = 17;
 
             var offset_width = 50 + Math.floor(Math.random() * (segmentSize - coin_width));
 
@@ -689,11 +697,7 @@ Crafty.c("Level", {
             var reward_obj = Crafty.e("Reward")
                     .attr({
                 x: coin_x    // Random Box location on map
-                        , y: 300
-                        , w: coin_width
-                        , h: 50
-            })
-                    .css({"background-color": 'orange'});
+            });
 
             currentBX += segmentSize;
             // Add new box object and reward to object array

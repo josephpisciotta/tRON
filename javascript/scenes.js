@@ -182,6 +182,6 @@ Crafty.scene("DeathScene", function() {
     });
 });
 
-function levelVarGenerator(level) {
-    return [10, 100, 5];
+function levelVarGenerator(level){
+	return [10, 130, 5];
 }
