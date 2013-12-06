@@ -113,19 +113,11 @@ Crafty.scene("Game", function() {
             .attr({w: 100, h: 100, paused: false})
             .bind("Click", function() {
         if (this.isPaused) {
-<<<<<<< HEAD
         	//_PauseMenu.destroy();
             Crafty.c();
         }
         else {
         	//_PauseMenu = Crafty.e("PauseMenu").attr({x:200,y:200, w:100, h:300});
-=======
-            _PauseMenu.destroy();
-            Crafty.c();
-        }
-        else {
-            _PauseMenu = Crafty.e("PauseMenu").attr({x: 200, y: 200});
->>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
             Crafty.pause();
         }
     });
@@ -143,13 +135,8 @@ Crafty.scene("Game", function() {
             .attr({x: 10, y: 150, w: 25, h: 100, z: 100})
             .progressBar(_TimeQuantum, true, "rgb(55,110,124)", "green");
     _CoinsInARowBar = Crafty.e("2D, DOM, ProgressBar")
-<<<<<<< HEAD
                 .attr({x: 35, y: 150, w: 25, h: 100, z: 100})
                 .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "blue");
-=======
-            .attr({x: 35, y: 150, w: 25, h: 100, z: 100})
-            .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "green");
->>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
 });
 
 
@@ -158,7 +145,6 @@ Crafty.scene("FinishScene", function() {
     // Add Constant background
     Crafty.background('url(images/finish-bg.png)');
     /*Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
-<<<<<<< HEAD
     _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
         x: Crafty.viewport.width - 120,
         y: 25,
@@ -183,22 +169,7 @@ Crafty.scene("FinishScene", function() {
         y: 350,
         w: 200,
         h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Score: " + (_ScoreEntity.getScore()));
-=======
-     _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
-     x: Crafty.viewport.width - 120,
-     y: 25,
-     w: 200,
-     h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();
-     });*/
-    Crafty.e("2D, DOM, Color, Mouse, Image")
-            .image("images/nextLevelButton.png")
-            .attr({w: 200, h: 50, x: 370, y: 400})
-            .css({"cursor": "pointer"})
-            .bind("Click", function() {
-        Crafty.scene("Menu");
-    });
 
->>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
 });
 
 //death
@@ -214,9 +185,10 @@ Crafty.scene("DeathScene", function() {
             .image("images/mainMenuButton.png")
             .attr({w: 200, h: 50, x: 370, y: 400})
             .css({"cursor": "pointer"})
-<<<<<<< HEAD
 			.bind("Click", function() {
-				Crafty.scene("Menu")
+				 // kill background music
+				 Crafty.audio.stop();
+				 Crafty.scene("Menu");
 			});
 	Crafty.e("Score, 2D, DOM, Text").attr({
         x: (Crafty.viewport.width/2) - 50,
@@ -228,14 +200,7 @@ Crafty.scene("DeathScene", function() {
         y: 350,
         w: 200,
         h: 50}).css({color: "#fff", "font-size":"20px", "font-family":"Helvetica, arial, sans-serif"}).text("Score: " + (_ScoreEntity.getScore()));
-=======
-            .bind("Click", function() {
 
-        // kill background music
-        Crafty.audio.stop();
-        Crafty.scene("Menu");
-    });
->>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
 });
 
 

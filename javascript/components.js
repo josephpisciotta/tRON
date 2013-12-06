@@ -532,7 +532,6 @@ Crafty.c("Touchable", {
 
 
 Crafty.c("PauseMenu", {
-<<<<<<< HEAD
 	init:function(){
 		this.requires("2D, DOM, Color");
 		var imageMask4 = Crafty.e("2D, DOM, Color, Mouse, Image")      
@@ -546,11 +545,6 @@ Crafty.c("PauseMenu", {
 
 			});
 	}
-=======
-    init: function() {
-
-    }
->>>>>>> 477c63335ee22678e2c9a23a28393b83e43e02fa
 });
 
 
