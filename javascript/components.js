@@ -333,11 +333,11 @@ Crafty.c("Reward", {
         this.requires("Collision");
         this.attr({
             y: 330,
-            w: 17,
-            h: 17
+            w: 30,
+            h: 30
         });
 
-        this.css({"background-image": "url(images/coin.png)"});
+        this.css({"background-image": "url(images/coin2.png)"});
 
         // Increase player points on colission
         this.onHit("Player", function() {
