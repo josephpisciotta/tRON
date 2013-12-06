@@ -157,6 +157,7 @@ Crafty.scene("FinishScene", function(){
 		.attr({w: 200, h: 50, x: 370, y: 400})
         .css({"cursor": "pointer"})
 		.bind("Click", function() {
+			_CurrentLevel++;
 			Crafty.scene("Menu")
 		});
 });
@@ -174,5 +175,5 @@ Crafty.scene("DeathScene", function() {
 });
 
 function levelVarGenerator(level){
-	return [10, 130, 5];
+	return [10*level, 100/level, level*3];
 }
