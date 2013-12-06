@@ -13,7 +13,7 @@ Crafty.scene("Menu", function() {
 				this.image("images/playUp.png")
 			})
 			.bind("Click", function() {
-				Crafty.scene("Game");
+				Crafty.scene("FinishScene");
 			});
 	Crafty.e("2D, DOM, Color, Mouse, Image")
 	var imageMask = Crafty.e("2D, DOM, Color, Mouse, Image")      
@@ -143,16 +143,23 @@ Crafty.scene("Game", function() {
 Crafty.scene("FinishScene", function(){
 	    // Add Constant background
     Crafty.background('url(images/finish-bg.png)');
-    Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
+    /*Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("You Won!!").css({"font-size": "40px", "color":"white"});
     _ScoreEntity = Crafty.e("Score, 2D, DOM, Text").attr({
         x: Crafty.viewport.width - 120,
         y: 25,
         w: 200,
         h: 50}).css({color: "#fff"}).text(function(){return "Score: " + _ScoreEntity.getScore();
+		});*/
+	Crafty.e("2D, DOM, Color, Mouse, Image")     
+		.image("images/nextLevelButton.png")
+		.attr({w: 200, h: 50, x: 370, y: 400})
+        .css({"cursor": "pointer"})
+		.bind("Click", function() {
+			Crafty.scene("Menu")
 		});
 });
 
-
+//death
 Crafty.scene("DeathScene", function() {
 	Crafty.background('url(images/death-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")     
