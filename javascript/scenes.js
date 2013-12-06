@@ -60,39 +60,39 @@ Crafty.scene("Menu", function() {
 });
 
 Crafty.scene("InstructionScene", function() {
-	Crafty.background('url(images/instructions.png)');
+	Crafty.background('url(images/instructions-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask2 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 Crafty.scene("AboutScene", function() {
-	Crafty.background('url(images/about.png)');
+	Crafty.background('url(images/about-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask3 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 Crafty.scene("HighscoreScene", function() {
-	Crafty.background('url(images/highscore.png)');
+	Crafty.background('url(images/highscores-bg.png)');
     Crafty.e("2D, DOM, Color, Mouse, Image")
-			//.image("images/playUp.png")
-			//.attr({w: 50, h: 50, x: 320, y: 300})
-            //.attr({w: 110, h: 50, x: 342, y: 310})
-            //.css({"cursor": "pointer"})
-            //.bind("Click", function() {
-			//	Crafty.scene("Game");
-			//});
+	var imageMask4 = Crafty.e("2D, DOM, Color, Mouse, Image")      
+			.image("images/backButton.png")
+			.attr({w: 200, h: 50, x: 370, y: 400})
+            .css({"cursor": "pointer"})
+			.bind("Click", function() {
+				Crafty.scene("Menu")
+			});
 });
 
 
@@ -134,8 +134,6 @@ Crafty.scene("Game", function() {
     _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 20, y: 150, w: 25, h: 100, z: 100})
                 .progressBar(_TimeQuantum, true, "blue", "green");
-
-
 });
 
 				
