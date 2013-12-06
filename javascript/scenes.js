@@ -132,18 +132,11 @@ Crafty.scene("Game", function() {
         
     // progress bar
     _ProgressBar = Crafty.e("2D, DOM, ProgressBar")
-<<<<<<< HEAD
                 .attr({x: 10, y: 150, w: 25, h: 100, z: 100})
                 .progressBar(_TimeQuantum, true, "rgb(55,110,124)", "green");
     _CoinsInARowBar = Crafty.e("2D, DOM, ProgressBar")
                 .attr({x: 35, y: 150, w: 25, h: 100, z: 100})
                 .progressBar(_CoinsForBonus, true, "rgb(55,110,124)", "green");
-
-
-=======
-                .attr({x: 20, y: 150, w: 25, h: 100, z: 100})
-                .progressBar(_TimeQuantum, true, "blue", "green");
->>>>>>> 4cf0c6d44388622e20e5d54eb3d7863b3cdbe7ce
 });
 
 				
